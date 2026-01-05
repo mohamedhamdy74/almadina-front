@@ -29,7 +29,9 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
         setIsLoading(true);
 
         try {
-            const API_BASE = import.meta.env.VITE_API_URL || '/api';
+            const API_BASE = import.meta.env.VITE_API_URL
+                ? (import.meta.env.VITE_API_URL.endsWith('/api') ? import.meta.env.VITE_API_URL : `${import.meta.env.VITE_API_URL}/api`)
+                : '/api';
             const response = await fetch(`${API_BASE}/ai/${endpoint}`, {
                 method: 'POST',
                 headers: {

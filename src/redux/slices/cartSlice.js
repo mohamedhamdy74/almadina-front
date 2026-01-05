@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = `${import.meta.env.VITE_API_URL || '/api'}/cart`;
+const BASE = import.meta.env.VITE_API_URL
+    ? (import.meta.env.VITE_API_URL.endsWith('/api') ? import.meta.env.VITE_API_URL : `${import.meta.env.VITE_API_URL}/api`)
+    : '/api';
+const API_URL = `${BASE}/cart`;
 
 // Configure axios to send cookies
 axios.defaults.withCredentials = true;
