@@ -78,7 +78,7 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
     return (
         <div className="flex flex-col h-full bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-2xl overflow-hidden border border-slate-200/60 backdrop-blur-xl">
             {/* Chat Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 md:space-y-6 custom-scrollbar">
                 {messages.length === 0 && (
                     <div className="flex items-center justify-center h-full">
                         <div className="text-center space-y-6 animate-fadeIn">
@@ -111,19 +111,19 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                         key={index}
                         className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}
                     >
-                        <div className={`flex gap-4 max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                        <div className={`flex gap-2 md:gap-4 max-w-[95%] md:max-w-[85%] ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
                             {/* Avatar */}
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-md ${msg.role === 'user'
+                            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-md ${msg.role === 'user'
                                 ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white'
                                 : 'bg-white text-slate-700 border border-slate-100'
                                 }`}>
-                                {msg.role === 'user' ? <div className="font-bold">أنت</div> : <Bot className="w-6 h-6" />}
+                                {msg.role === 'user' ? <div className="font-bold text-xs md:text-sm">أنت</div> : <Bot className="w-5 h-5 md:w-6 md:h-6" />}
                             </div>
 
                             <div className="space-y-4 w-full">
                                 {/* Message Bubble */}
                                 <div
-                                    className={`rounded-2xl px-6 py-4 shadow-sm text-lg leading-relaxed ${msg.role === 'user'
+                                    className={`rounded-2xl px-4 py-3 md:px-6 md:py-4 shadow-sm text-base md:text-lg leading-relaxed ${msg.role === 'user'
                                         ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-tr-none'
                                         : 'bg-white text-slate-800 border border-slate-200/60 rounded-tl-none'
                                         }`}
@@ -196,23 +196,23 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
             </div>
 
             {/* Input Area */}
-            <div className="p-6 bg-white/80 backdrop-blur-md border-t border-slate-200/60">
-                <form onSubmit={sendMessage} className="flex gap-4 relative">
+            <div className="p-3 md:p-6 bg-white/80 backdrop-blur-md border-t border-slate-200/60">
+                <form onSubmit={sendMessage} className="flex gap-2 md:gap-4 relative">
                     <input
                         type="text"
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
                         placeholder={placeholder}
                         disabled={isLoading}
-                        className="flex-1 px-6 py-4 pr-12 rounded-2xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-all text-lg shadow-sm disabled:bg-slate-50 disabled:cursor-not-allowed bg-slate-50/50 focus:bg-white"
+                        className="flex-1 px-4 md:px-6 py-3 md:py-4 rounded-2xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-all text-base md:text-lg shadow-sm disabled:bg-slate-50 disabled:cursor-not-allowed bg-slate-50/50 focus:bg-white"
                         dir="rtl"
                     />
                     <button
                         type="submit"
                         disabled={isLoading || !inputMessage.trim()}
-                        className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-blue-500/25 active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
+                        className="px-4 md:px-8 py-3 md:py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-bold hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-blue-500/25 active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
                     >
-                        <span>إرسال</span>
+                        <span className="hidden xs:inline">إرسال</span>
                         <Send className="w-5 h-5 -rotate-90" />
                     </button>
                 </form>

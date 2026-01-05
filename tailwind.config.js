@@ -30,6 +30,9 @@ export default {
         amiri: ["Amiri", "serif"],
         cairo: ['"Cairo"', "sans-serif"],
       },
+      screens: {
+        'xs': '380px',
+      },
     },
   },
   // eslint-disable-next-line no-undef
