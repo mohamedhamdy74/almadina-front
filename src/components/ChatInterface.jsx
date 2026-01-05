@@ -29,7 +29,8 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
         setIsLoading(true);
 
         try {
-            const response = await fetch(`/api/ai/${endpoint}`, {
+            const API_BASE = import.meta.env.VITE_API_URL || '/api';
+            const response = await fetch(`${API_BASE}/ai/${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
