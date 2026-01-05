@@ -62,8 +62,11 @@ export default function Login() {
   };
 
   return (
-    <div className="font-cairo bg-gradient-to-br from-bg-light to-bg-white min-h-screen flex items-center justify-center px-4 pb-12 pt-40 animate-in fade-in duration-1000">
-      <div className="bg-bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md animate-in zoom-in slide-in-from-bottom duration-700">
+    <div className="font-cairo min-h-screen flex items-center justify-center px-4 pb-12 pt-40 animate-in fade-in duration-1000 bg-[url('/hero.png')] bg-cover bg-center relative overflow-hidden">
+      {/* طبقة تظليل للخلفية لضمان وضوح الفورم */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
+
+      <div className="relative z-10 bg-bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md animate-in zoom-in slide-in-from-bottom duration-700">
         {/* اللوجو */}
         <div className="flex justify-center mb-6">
           <Link to="/">
