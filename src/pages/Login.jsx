@@ -101,12 +101,12 @@ export default function Login() {
         </div>
 
         {/* العنوان */}
-        <div className="text-center mb-2 animate-in fade-in slide-in-from-top duration-500">
-          <h2 className="text-xl md:text-2xl font-bold text-text-dark flex items-center justify-center gap-2">
+        <div className="text-center mb-4 animate-in fade-in slide-in-from-top duration-500">
+          <h2 className="inline-flex items-center justify-center gap-2 text-xl md:text-3xl font-bold text-text-dark leading-tight mx-auto">
             <span>{isLogin ? 'سجل دخولك لمشاهدة أقوى عروضنا' : 'انضم لعائلة المدينة ستور'}</span>
             {isLogin && (
               <svg
-                className="w-8 h-8 text-orange-500 fill-current animate-pulse shrink-0"
+                className="w-7 h-7 md:w-8 md:h-8 text-orange-500 fill-current animate-pulse shrink-0"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
