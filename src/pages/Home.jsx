@@ -22,7 +22,7 @@ function Home() {
 
   return (
     <div className='font-cairo m-0'>
-      <section className='relative grid grid-cols-1 bg-[url("hero.png")] bg-cover bg-center p-52 min-h-screen font-cairo'>
+      <section className='relative grid grid-cols-1 bg-[url("/hero.png")] bg-cover bg-center p-52 min-h-screen font-cairo'>
         {/* <!-- Overlay --> */}
         <div className="absolute inset-0 bg-black/25"></div>
 
