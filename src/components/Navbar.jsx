@@ -25,16 +25,15 @@ const Navbar = () => {
         },
     ];
 
-    // لوجو المتجر
     const brandLogo = (
-        <Link to={homeLink}>
-            <img src='/logo.png' className="w-24 h-24 animate-in fade-in zoom-in duration-700 mr-3" alt="Logo" />
+        <Link to={homeLink} className="flex-shrink-0">
+            <img src='/logo.png' className="h-10 md:h-16 w-auto object-contain animate-in fade-in zoom-in duration-700 mr-2 md:mr-3" alt="Logo" />
         </Link>
     );
 
     return (
-        <nav className="fixed top-5 left-10 right-10 mx-auto z-50 text-xl h-[15vh] shadow-md bg-white/90 rounded-full font-cairo font-bold text-slate-800 backdrop-blur-md">
-            <div className="container flex items-center justify-between px-4 py-3 mx-auto h-full">
+        <nav className="fixed top-3 md:top-5 left-3 right-3 md:left-10 md:right-10 mx-auto z-50 h-16 md:h-24 shadow-md bg-white/90 rounded-full font-cairo font-bold text-slate-800 backdrop-blur-md transition-all duration-300">
+            <div className="container flex items-center justify-between px-4 md:px-6 mx-auto h-full">
                 {/* Logo */}
                 {brandLogo}
 

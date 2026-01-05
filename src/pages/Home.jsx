@@ -21,8 +21,8 @@ function Home() {
   const latestProducts = products.slice(0, 3);
 
   return (
-    <div className='font-cairo m-0'>
-      <section className='relative grid grid-cols-1 bg-[url("/hero.png")] bg-cover bg-center p-52 min-h-screen font-cairo'>
+    <div className='font-cairo m-0 overflow-x-hidden'>
+      <section className='relative grid grid-cols-1 bg-[url("/hero.png")] bg-cover bg-center py-20 px-6 md:p-52 min-h-screen font-cairo overflow-hidden'>
         {/* <!-- Overlay --> */}
         <div className="absolute inset-0 bg-black/25"></div>
 
@@ -63,7 +63,7 @@ function Home() {
 
       {/* {احدث المنتجات  } */}
       <div className='bg-bg-white py-5 w-full'>
-        <h2 className='text-5xl font-bold text-text-dark py-20 text-center font-cairo'> أحدث المنتجات</h2>
+        <h2 className='text-3xl md:text-5xl font-bold text-text-dark py-10 md:py-20 text-center font-cairo'> أحدث المنتجات</h2>
         <div className="container mx-auto px-6">
           {loading ? (
             <div className="text-center py-10">جاري التحميل...</div>
