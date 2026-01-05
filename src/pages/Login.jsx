@@ -62,11 +62,11 @@ export default function Login() {
   };
 
   return (
-    <div className="font-cairo min-h-screen flex items-center justify-center px-4 pb-12 pt-40 animate-in fade-in duration-1000 bg-[url('/hero.png')] bg-cover bg-center relative overflow-hidden">
+    <div className="font-cairo min-h-screen flex items-center justify-center px-4 pb-12 pt-16 md:pt-40 animate-in fade-in duration-1000 bg-[url('/hero.png')] bg-[length:100%_100%] md:bg-cover bg-center relative overflow-hidden">
       {/* طبقة تظليل للخلفية لضمان وضوح الفورم */}
       <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"></div>
 
-      <div className="relative z-10 bg-bg-white/95 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md animate-in zoom-in slide-in-from-bottom duration-700">
+      <div className="relative z-10 bg-bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-2xl w-full max-w-md animate-in zoom-in slide-in-from-bottom duration-700">
         {/* اللوجو */}
         <div className="flex justify-center mb-6">
           <Link to="/">
@@ -79,10 +79,10 @@ export default function Login() {
         </div>
 
         {/* تبديل بين الدخول والتسجيل */}
-        <div className="flex mb-8 bg-bg-light rounded-lg p-1">
+        <div className="flex mb-6 md:mb-8 bg-bg-light rounded-lg p-1 text-sm md:text-base">
           <button
             onClick={() => setIsLogin(true)}
-            className={`flex-1 py-2 px-4 rounded-lg font-bold transition-all duration-300 ${isLogin
+            className={`flex-1 py-1.5 md:py-2 px-4 rounded-lg font-bold transition-all duration-300 ${isLogin
               ? 'bg-primary-medium text-bg-white shadow-md animate-in fade-in zoom-in duration-300'
               : 'text-text-medium hover:text-primary-medium'
               }`}
@@ -91,7 +91,7 @@ export default function Login() {
           </button>
           <button
             onClick={() => setIsLogin(false)}
-            className={`flex-1 py-2 px-4 rounded-lg font-bold transition-all duration-300 ${!isLogin
+            className={`flex-1 py-1.5 md:py-2 px-4 rounded-lg font-bold transition-all duration-300 ${!isLogin
               ? 'bg-primary-medium text-bg-white shadow-md animate-in fade-in zoom-in duration-300'
               : 'text-text-medium hover:text-primary-medium'
               }`}
@@ -101,10 +101,10 @@ export default function Login() {
         </div>
 
         {/* العنوان */}
-        <h2 className="text-2xl font-bold text-center text-text-dark mb-2 animate-in fade-in slide-in-from-top duration-500">
+        <h2 className="text-xl md:text-2xl font-bold text-center text-text-dark mb-2 animate-in fade-in slide-in-from-top duration-500">
           {isLogin ? 'سجل دخولك لمشاهدة أقوى عروضنا 🔥' : 'انضم لعائلة المدينة ستور'}
         </h2>
-        <p className="text-center text-text-light mb-8 animate-in fade-in slide-in-from-top duration-500 delay-100">
+        <p className="text-sm md:text-base text-center text-text-light mb-6 md:mb-8 animate-in fade-in slide-in-from-top duration-500 delay-100 px-2">
           {isLogin ? 'استكشف أحدث المنتجات والخصومات الحصرية لمشتركينا' : 'سجل الآن واستمتع بتجربة تسوق فريدة وعروض لا تنتهي'}
         </p>
 
@@ -257,12 +257,6 @@ export default function Login() {
         <div className="mt-8 text-center animate-in fade-in slide-in-from-bottom duration-500 delay-700">
           {isLogin ? (
             <>
-              <p className="text-text-light">
-                نسيت كلمة المرور؟{' '}
-                <Link to="/forgot-password" className="text-primary-medium hover:text-primary-dark transition-colors duration-200">
-                  استعادتها
-                </Link>
-              </p>
               <p className="text-text-light mt-2">
                 ليس لديك حساب؟{' '}
                 <button
