@@ -64,13 +64,24 @@ export default function Login() {
   return (
     <div className="font-cairo bg-gradient-to-br from-bg-light to-bg-white min-h-screen flex items-center justify-center px-4 pb-12 pt-40 animate-in fade-in duration-1000">
       <div className="bg-bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md animate-in zoom-in slide-in-from-bottom duration-700">
+        {/* اللوجو */}
+        <div className="flex justify-center mb-6">
+          <Link to="/">
+            <img
+              src="/logo.png"
+              alt="المدينة ستور"
+              className="h-24 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-md"
+            />
+          </Link>
+        </div>
+
         {/* تبديل بين الدخول والتسجيل */}
         <div className="flex mb-8 bg-bg-light rounded-lg p-1">
           <button
             onClick={() => setIsLogin(true)}
             className={`flex-1 py-2 px-4 rounded-lg font-bold transition-all duration-300 ${isLogin
-                ? 'bg-primary-medium text-bg-white shadow-md animate-in fade-in zoom-in duration-300'
-                : 'text-text-medium hover:text-primary-medium'
+              ? 'bg-primary-medium text-bg-white shadow-md animate-in fade-in zoom-in duration-300'
+              : 'text-text-medium hover:text-primary-medium'
               }`}
           >
             تسجيل الدخول
@@ -78,8 +89,8 @@ export default function Login() {
           <button
             onClick={() => setIsLogin(false)}
             className={`flex-1 py-2 px-4 rounded-lg font-bold transition-all duration-300 ${!isLogin
-                ? 'bg-primary-medium text-bg-white shadow-md animate-in fade-in zoom-in duration-300'
-                : 'text-text-medium hover:text-primary-medium'
+              ? 'bg-primary-medium text-bg-white shadow-md animate-in fade-in zoom-in duration-300'
+              : 'text-text-medium hover:text-primary-medium'
               }`}
           >
             إنشاء حساب
@@ -87,11 +98,11 @@ export default function Login() {
         </div>
 
         {/* العنوان */}
-        <h2 className="text-3xl font-bold text-center text-text-dark mb-2 animate-in fade-in slide-in-from-top duration-500">
-          {isLogin ? 'مرحباً بك!' : 'انضم إلينا'}
+        <h2 className="text-2xl font-bold text-center text-text-dark mb-2 animate-in fade-in slide-in-from-top duration-500">
+          {isLogin ? 'سجل دخولك لمشاهدة أقوى عروضنا 🔥' : 'انضم لعائلة المدينة ستور'}
         </h2>
         <p className="text-center text-text-light mb-8 animate-in fade-in slide-in-from-top duration-500 delay-100">
-          {isLogin ? 'سجل دخولك للمتابعة' : 'أنشئ حسابك الجديد'}
+          {isLogin ? 'استكشف أحدث المنتجات والخصومات الحصرية لمشتركينا' : 'سجل الآن واستمتع بتجربة تسوق فريدة وعروض لا تنتهي'}
         </p>
 
         {/* النموذج */}
