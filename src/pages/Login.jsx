@@ -101,21 +101,19 @@ export default function Login() {
         </div>
 
         {/* العنوان */}
-        <div className="flex flex-col items-center mb-2 animate-in fade-in slide-in-from-top duration-500">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl md:text-2xl font-bold text-center text-text-dark">
-              {isLogin ? 'سجل دخولك لمشاهدة أقوى عروضنا' : 'انضم لعائلة المدينة ستور'}
-            </h2>
+        <div className="text-center mb-2 animate-in fade-in slide-in-from-top duration-500">
+          <h2 className="text-xl md:text-2xl font-bold text-text-dark flex items-center justify-center gap-2">
+            <span>{isLogin ? 'سجل دخولك لمشاهدة أقوى عروضنا' : 'انضم لعائلة المدينة ستور'}</span>
             {isLogin && (
               <svg
-                className="w-6 h-6 text-orange-500 fill-current animate-pulse"
+                className="w-8 h-8 text-orange-500 fill-current animate-pulse shrink-0"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M12 23C12 23 18.5 19.5 18.5 14.5C18.5 11 16.5 9 16.5 9C16.5 9 17.5 10.5 17.5 12C17.5 14 15.5 15.5 13.5 14C13.5 11 14 8 12.5 4C12.5 4 13.5 7 11.5 10C9.5 13 8.5 14.5 9 17.5C9.5 20.5 12 23 12 23Z" />
               </svg>
             )}
-          </div>
+          </h2>
         </div>
         <p className="text-sm md:text-base text-center text-text-light mb-6 md:mb-8 animate-in fade-in slide-in-from-top duration-500 delay-100 px-2">
           {isLogin ? 'استكشف أحدث المنتجات والخصومات الحصرية لمشتركينا' : 'سجل الآن واستمتع بتجربة تسوق فريدة وعروض لا تنتهي'}
