@@ -1,0 +1,455 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts, createProduct, updateProduct, deleteProduct } from '../redux/slices/productSlice';
+
+export default function Admin() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+  const { items: products } = useSelector((state) => state.products);
+
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [imageInputs, setImageInputs] = useState([0]); // Array of image input IDs
+
+  // schema للتحقق من المنتج
+  const productSchema = yup.object().shape({
+    name: yup.string().required('اسم المنتج مطلوب'),
+    brand: yup.string().required('الماركة مطلوبة'),
+    price: yup.number().typeError('السعر يجب أن يكون رقم').required('السعر مطلوب'),
+    description: yup.string().required('الوصف مطلوب'),
+    category: yup.string().required('الفئة مطلوبة'),
+  });
+
+  const {
+    register: productRegister,
+    handleSubmit: handleProductSubmit,
+    formState: { errors: productErrors },
+    reset: resetProductForm,
+  } = useForm({
+    resolver: yupResolver(productSchema),
+    defaultValues: {
+      name: '',
+      brand: '',
+      price: '',
+      description: '',
+      category: 'Accessories',
+    },
+  });
+
+  // تحديث القيم عند فتح modal للتعديل
+  useEffect(() => {
+    if (isModalOpen) {
+      if (editingProduct) {
+        resetProductForm(editingProduct);
+      } else {
+        resetProductForm({
+          name: '', brand: '', price: '', description: '', category: 'Accessories'
+        });
+      }
+    }
+  }, [isModalOpen, editingProduct, resetProductForm]);
+  // تمهيد للتحويل إلى react-hook-form
+
+  // Check if user is admin
+  useEffect(() => {
+    if (!user || user.role !== 'admin') {
+      navigate('/');
+      return;
+    }
+    dispatch(fetchProducts());
+  }, [user, navigate, dispatch]);
+
+  // تحديث القائمة المفلترة عند تغيير البحث أو المنتجات
+  useEffect(() => {
+    setFilteredProducts(
+      products.filter(product =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [products, searchTerm]);
+
+  if (!data.name?.trim()) throw new Error('اسم المنتج مطلوب');
+  if (!data.brand?.trim()) throw new Error('الماركة مطلوبة');
+  if (!data.price || isNaN(data.price)) throw new Error('السعر مطلوب ويجب أن يكون رقماً');
+  if (!data.description?.trim()) throw new Error('الوصف مطلوب');
+  if (!data.category) throw new Error('الفئة مطلوبة');
+
+  // Create FormData for file uploads
+  const formData = new FormData();
+  formData.append('name', data.name.trim());
+  formData.append('brand', data.brand.trim());
+  formData.append('price', data.price.toString());
+  formData.append('description', data.description.trim());
+  formData.append('category', data.category);
+
+  // Add specifications
+  const specifications = {};
+  if (data.cpu?.trim()) specifications.cpu = data.cpu.trim();
+  if (data.ramMemory?.trim()) specifications.ramMemory = data.ramMemory.trim();
+  if (data.hardDiskSize?.trim()) specifications.hardDiskSize = data.hardDiskSize.trim();
+  if (data.screenSize?.trim()) specifications.screenSize = data.screenSize.trim();
+  if (data.color?.trim()) specifications.color = data.color.trim();
+  if (data.operatingSystem?.trim()) specifications.operatingSystem = data.operatingSystem.trim();
+  if (data.specialFeatures?.trim()) {
+    specifications.specialFeatures = data.specialFeatures.split(',').map(f => f.trim()).filter(f => f);
+  }
+
+  formData.append('specifications', JSON.stringify(specifications));
+
+  // Get files from form elements directly
+  const thumbnailInput = document.querySelector('input[name="thumbnail"]');
+  const imagesInput = document.querySelector('input[name="images"]');
+
+  console.log('Thumbnail input:', thumbnailInput);
+  console.log('Images input:', imagesInput);
+
+  if (thumbnailInput && thumbnailInput.files && thumbnailInput.files.length > 0) {
+    console.log('Adding thumbnail:', thumbnailInput.files[0]);
+    formData.append('thumbnail', thumbnailInput.files[0]);
+  } else {
+    throw new Error('الصورة الرئيسية مطلوبة');
+  }
+
+  if (imagesInput && imagesInput.files && imagesInput.files.length > 0) {
+    console.log('Adding images:', imagesInput.files.length);
+    Array.from(imagesInput.files).forEach((file, index) => {
+      console.log(`Adding image ${index}:`, file);
+      formData.append('images', file);
+    });
+  } else {
+    console.log('No additional images found');
+  }
+
+  console.log('Final FormData contents:');
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
+
+  let result;
+  if (editingProduct) {
+    console.log('Updating product:', editingProduct._id);
+    result = await dispatch(updateProduct({ id: editingProduct._id, productData: formData })).unwrap();
+  } else {
+    console.log('Creating new product');
+    result = await dispatch(createProduct(formData)).unwrap();
+  }
+
+  console.log('Operation successful:', result);
+
+  setIsModalOpen(false);
+  setEditingProduct(null);
+  resetProductForm();
+
+  // Clear file inputs
+  if (thumbnailInput) thumbnailInput.value = '';
+  if (imagesInput) imagesInput.value = '';
+
+} catch (error) {
+  console.error('Error saving product:', error);
+  alert('حدث خطأ في حفظ المنتج: ' + (error?.message || error || 'خطأ غير معروف'));
+}
+  };
+
+// حذف منتج
+const handleDeleteProduct = async (id) => {
+  if (window.confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+    try {
+      await dispatch(deleteProduct(id)).unwrap();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
+  }
+};
+
+// إغلاق modal
+const handleCloseModal = () => {
+  setIsModalOpen(false);
+  setEditingProduct(null);
+};
+
+return (
+  <div className="font-cairo bg-gradient-to-br from-bg-light to-bg-white min-h-screen pt-40 pb-16">
+    <div className="container mx-auto px-6" dir="rtl">
+      {/* العنوان */}
+      <header className="mb-8 text-right animate-in fade-in slide-in-from-top duration-500">
+        <h1 className="text-4xl font-bold text-text-dark">لوحة تحكم الأدمن</h1>
+        <p className="mt-2 text-text-light">إدارة المنتجات: إضافة، تعديل، حذف، وبحث</p>
+      </header>
+
+      {/* شريط البحث والإضافة */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-in fade-in slide-in-from-left duration-500 delay-200">
+        <div className="flex-1">
+          <input
+            type="text"
+            placeholder="ابحث عن منتج..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium focus:border-transparent transition-all duration-200 bg-bg-white text-text-dark"
+          />
+        </div>
+        <button
+          onClick={handleAddProduct}
+          className="px-6 py-3 bg-gradient-to-r from-primary-medium to-accent-pink text-bg-white rounded-lg font-bold hover:from-primary-dark hover:to-accent-pink/90 transition-all duration-500 hover:shadow-lg hover:scale-105 animate-in zoom-in delay-300"
+        >
+          إضافة منتج جديد
+        </button>
+      </div>
+
+      {/* قائمة المنتجات */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom duration-500 delay-400">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <div key={product._id} className="bg-bg-white p-5 rounded-2xl shadow-lg border border-bg-light hover:shadow-xl transition-all duration-500 animate-in zoom-in">
+              {/* الصورة */}
+              <img
+                src={product.thumbnail}
+                alt={product.name}
+                className="w-full h-48 object-cover rounded-lg mb-4"
+              />
+
+              {/* المعلومات */}
+              <div className="text-right">
+                <h3 className="text-xl font-bold text-text-dark mb-2">{product.name}</h3>
+                <p className="text-success font-semibold mb-2">
+                  {product.price}ج.م
+                </p>
+                <p className="text-text-medium text-sm mb-2 line-clamp-3">{product.description}</p>
+                <p className="text-text-light text-xs mb-4">الفئة: {product.category} | الماركة: {product.brand}</p>
+              </div>
+
+              {/* الأزرار */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEditProduct(product)}
+                  className="flex-1 py-2 bg-primary-medium text-bg-white rounded-lg font-bold hover:bg-primary-dark transition-all duration-300 hover:scale-105"
+                >
+                  تعديل
+                </button>
+                <button
+                  onClick={() => handleDeleteProduct(product._id)}
+                  className="flex-1 py-2 bg-accent-pink text-bg-white rounded-lg font-bold hover:bg-red-600 transition-all duration-300 hover:scale-105"
+                >
+                  حذف
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-12">
+            <p className="text-text-light text-lg">لا توجد منتجات تطابق البحث</p>
+          </div>
+        )}
+      </div>
+
+      {/* Modal للإضافة/التعديل */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-start justify-center p-4 pt-12 pb-12 z-50 animate-in fade-in duration-300 overflow-y-auto">
+          <div className="bg-bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl animate-in zoom-in duration-500 relative my-12 max-h-[85vh] overflow-y-auto">
+            {/* زر الخروج */}
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 left-4 text-text-light hover:text-text-dark transition-colors duration-200"
+              aria-label="إغلاق"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h2 className="text-2xl font-bold text-text-dark text-center mb-6">
+              {editingProduct ? 'تعديل المنتج' : 'إضافة منتج جديد'}
+            </h2>
+
+            <form onSubmit={handleProductSubmit(handleSaveProduct)} className="space-y-4">
+              {/* الحقول الأساسية - عمودين */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-2">اسم المنتج</label>
+                  <input
+                    type="text"
+                    {...productRegister('name')}
+                    className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                  />
+                  {productErrors.name && <p className="text-red-500 text-xs mt-1">{productErrors.name.message}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-2">الماركة</label>
+                  <input
+                    type="text"
+                    {...productRegister('brand')}
+                    className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                  />
+                  {productErrors.brand && <p className="text-red-500 text-xs mt-1">{productErrors.brand.message}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-2">السعر</label>
+                  <input
+                    type="number"
+                    {...productRegister('price')}
+                    className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                  />
+                  {productErrors.price && <p className="text-red-500 text-xs mt-1">{productErrors.price.message}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-dark mb-2">الفئة</label>
+                  <select
+                    {...productRegister('category')}
+                    className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                  >
+                    <option value="Accessories">إكسسوارات</option>
+                    <option value="Laptops">لابتوبات</option>
+                  </select>
+                  {productErrors.category && <p className="text-red-500 text-xs mt-1">{productErrors.category.message}</p>}
+                </div>
+              </div>
+
+              {/* الوصف - عرض كامل */}
+              <div>
+                <label className="block text-sm font-medium text-text-dark mb-2">الوصف</label>
+                <textarea
+                  {...productRegister('description')}
+                  className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium resize-none"
+                  rows="3"
+                />
+                {productErrors.description && <p className="text-red-500 text-xs mt-1">{productErrors.description.message}</p>}
+              </div>
+
+              {/* المواصفات التقنية */}
+              <div className="border-t pt-4">
+                <h3 className="text-lg font-semibold text-text-dark mb-4">المواصفات التقنية (اختيارية)</h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-text-dark mb-2">المعالج</label>
+                    <input
+                      type="text"
+                      {...productRegister('cpu')}
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text-dark mb-2">الرام</label>
+                    <input
+                      type="text"
+                      {...productRegister('ramMemory')}
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text-dark mb-2">القرص الصلب</label>
+                    <input
+                      type="text"
+                      {...productRegister('hardDiskSize')}
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text-dark mb-2">حجم الشاشة</label>
+                    <input
+                      type="text"
+                      {...productRegister('screenSize')}
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text-dark mb-2">اللون</label>
+                    <input
+                      type="text"
+                      {...productRegister('color')}
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-text-dark mb-2">نظام التشغيل</label>
+                    <input
+                      type="text"
+                      {...productRegister('operatingSystem')}
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-text-dark mb-2">المميزات الخاصة (مفصولة بفواصل)</label>
+                    <input
+                      type="text"
+                      {...productRegister('specialFeatures')}
+                      placeholder="مثال: Backlit Keyboard, Fingerprint Reader, Lightweight"
+                      className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-text-dark mb-2">الصورة الرئيسية *</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="thumbnail"
+                  className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-medium file:text-white hover:file:bg-primary-dark"
+                />
+                <p className="text-xs text-text-light mt-1">الصورة الرئيسية للمنتج (مطلوبة)</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-text-dark mb-2">صور إضافية (اختياري)</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  name="images"
+                  className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-medium file:text-white hover:file:bg-primary-dark"
+                />
+                <p className="text-xs text-text-light mt-1">يمكنك اختيار عدة صور (حد أقصى 10 صور)</p>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="submit"
+                  className="flex-1 py-3 bg-gradient-to-r from-primary-medium to-accent-pink text-bg-white rounded-lg font-bold hover:from-primary-dark hover:to-accent-pink/90 transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  {editingProduct ? 'تحديث المنتج' : 'إضافة المنتج'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="flex-1 py-3 bg-gray-500 text-white rounded-lg font-bold hover:bg-gray-600 transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  إلغاء
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )
+      }
+
+      {/* رابط العودة */}
+      <div className="mt-12 text-center animate-in fade-in slide-in-from-bottom duration-500 delay-500">
+        <Link to="/" className="text-text-medium hover:text-primary-medium transition-colors duration-200 flex items-center justify-center space-x-2 space-x-reverse">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>العودة للرئيسية</span>
+        </Link>
+      </div>
+    </div >
+  </div >
+);
+}

@@ -1,0 +1,158 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../redux/slices/authSlice';
+import { Bot, Search, User, ShoppingCart, Menu, X, LogOut } from 'lucide-react';
+
+const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
+    const { itemCount } = useSelector((state) => state.cart);
+
+    // روابط التنقل
+    const homeLink = user?.role === 'admin' ? '/admin' : '/';
+    const navLinks = [
+        { name: 'الرئيسية', path: homeLink },
+        { name: 'اللابتوبات', path: '/laptops' },
+        { name: 'الإكسسوارات', path: '/accessories' },
+        { name: 'من نحن', path: '/about' },
+        {
+            name: 'مساعد AI',
+            path: '/ai-assistant',
+            icon: <Bot className="w-5 h-5 inline-block ml-1" />
+        },
+    ];
+
+    // لوجو المتجر
+    const brandLogo = (
+        <Link to={homeLink}>
+            <img src='/logo.png' className="w-24 h-24 animate-in fade-in zoom-in duration-700 mr-3" alt="Logo" />
+        </Link>
+    );
+
+    return (
+        <nav className="fixed top-5 left-10 right-10 mx-auto z-50 text-xl h-[15vh] shadow-md bg-white/90 rounded-full font-cairo font-bold text-slate-800 backdrop-blur-md">
+            <div className="container flex items-center justify-between px-4 py-3 mx-auto h-full">
+                {/* Logo */}
+                {brandLogo}
+
+                {/* Desktop Navigation Links */}
+                <div className="hidden md:flex md:gap-5 items-center">
+                    {navLinks.map((link) => (
+                        <Link
+                            key={link.name}
+                            to={link.path}
+                            className="transition-colors duration-200 cursor-pointer flex items-center gap-1 text-slate-600 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg"
+                        >
+                            {link.icon && link.icon}
+                            {link.name}
+                        </Link>
+                    ))}
+                </div>
+
+                {/* Right Section: Icons & Mobile Menu Button */}
+                <div className="flex items-center space-x-4">
+                    {/* Search Icon */}
+                    <button
+                        onClick={() => setIsSearchOpen(!isSearchOpen)}
+                        className="p-2 rounded-full text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition duration-300"
+                        aria-label="Search"
+                    >
+                        <Search className="w-6 h-6" />
+                    </button>
+
+                    {/* User / Auth Icon */}
+                    {user ? (
+                        <div className="relative group">
+                            <button
+                                onClick={() => dispatch(logoutUser())}
+                                className="p-2 rounded-full text-slate-600 hover:text-red-600 hover:bg-red-50 transition duration-300"
+                                aria-label="Logout"
+                                title="تسجيل الخروج"
+                            >
+                                <LogOut className="w-6 h-6" />
+                            </button>
+                            <span className="absolute -top-1 -right-1 text-xs bg-green-500 text-white rounded-full px-2 py-0.5 shadow-sm">
+                                {user.role === 'admin' ? 'أدمن' : 'مستخدم'}
+                            </span>
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="p-2 rounded-full text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition duration-300"
+                            aria-label="Login"
+                        >
+                            <User className="w-6 h-6" />
+                        </Link>
+                    )}
+
+                    {/* Cart Icon */}
+                    <Link
+                        to="/cart"
+                        className="relative p-2 rounded-full text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition duration-300"
+                        aria-label="Shopping Cart"
+                    >
+                        <ShoppingCart className="w-6 h-6" />
+                        {itemCount > 0 && (
+                            <span className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full bg-pink-500 text-white animate-bounce">
+                                {itemCount}
+                            </span>
+                        )}
+                    </Link>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="p-2 transition-colors rounded-full md:hidden text-slate-600 hover:text-blue-600 hover:bg-slate-100 focus:outline-none"
+                        aria-label="Toggle Menu"
+                    >
+                        {isMenuOpen ? (
+                            <X className="w-6 h-6" />
+                        ) : (
+                            <Menu className="w-6 h-6" />
+                        )}
+                    </button>
+                </div>
+            </div>
+
+            {/* Mobile Menu Dropdown */}
+            {isMenuOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden md:hidden animate-in slide-in-from-top-5 duration-300">
+                    <div className="flex flex-col p-4 space-y-2">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.name}
+                                to={link.path}
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 text-lg text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                            >
+                                {link.icon && link.icon}
+                                {link.name}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Search Input Dropdown */}
+            {isSearchOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 md:mx-auto md:w-1/2 animate-in fade-in slide-in-from-top-5 duration-300">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            placeholder="ابحث عن المنتجات..."
+                            className="w-full p-4 pr-12 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-slate-700"
+                            dir="rtl"
+                            autoFocus
+                        />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
+                    </div>
+                </div>
+            )}
+        </nav>
+    );
+};
+
+export default Navbar;
