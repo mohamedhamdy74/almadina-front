@@ -13,7 +13,9 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
     };
 
     useEffect(() => {
-        scrollToBottom();
+        if (messages.length > 0) {
+            scrollToBottom();
+        }
     }, [messages]);
 
     const sendMessage = async (e) => {
