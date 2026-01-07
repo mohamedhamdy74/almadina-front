@@ -73,7 +73,7 @@ export default function Login() {
             <img
               src="/logo.png"
               alt="المدينة ستور"
-              className="h-24 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-md"
+              className="h-32 md:h-48 w-auto object-contain hover:scale-105 transition-transform duration-300 drop-shadow-md"
             />
           </Link>
         </div>

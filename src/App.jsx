@@ -12,6 +12,7 @@ import ProductDetails from "./pages/ProductDetails";
 import ProtectedRoute from './components/ProtectedRoute';
 import AIAssistant from "./pages/AIAssistant";
 import About from "./pages/About";
+import ScrollToTop from './components/ScrollToTop';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       {location.pathname !== '/login' && location.pathname !== '/admin' && <Navbar />}
 
       <Routes>

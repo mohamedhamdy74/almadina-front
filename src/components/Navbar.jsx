@@ -27,7 +27,7 @@ const Navbar = () => {
 
     const brandLogo = (
         <Link to={homeLink} className="flex-shrink-0">
-            <img src='/logo.png' className="h-10 md:h-16 w-auto object-contain animate-in fade-in zoom-in duration-700 mr-2 md:mr-3" alt="Logo" />
+            <img src='/logo.png' className="h-16 md:h-28 w-auto object-contain animate-in fade-in zoom-in duration-700 mr-2 md:mr-3" alt="Logo" />
         </Link>
     );
 
