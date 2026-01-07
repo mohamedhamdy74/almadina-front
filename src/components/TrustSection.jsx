@@ -15,8 +15,8 @@ function TrustSection() {
     },
     {
       icon: <RotateCcw className="w-10 h-10 text-primary-medium" />,
-      title: "استرجاع سهل",
-      desc: "استرجاع أو استبدال خلال 14 يوم بدون تعقيد.",
+      title: "ضمان 3 شهور",
+      desc: "سياسة ضمان شاملة لمدة 3 شهور على جميع أجهزة اللابتوب.",
     },
   ];
 
@@ -25,7 +25,7 @@ function TrustSection() {
       {/* العنوان */}
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold text-text-dark animate-fade-up">
-          تسوق وانت مطمّن 
+          تسوق وانت مطمّن
         </h2>
         <p className="mt-2 text-text-medium">
           بنقدملك أفضل تجربة شراء بكل راحة وأمان

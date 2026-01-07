@@ -5,6 +5,8 @@ import Card from '../components/Card';
 import TrustSection from '../components/TrustSection';
 import ReviewsSection from '../components/ReviewsSection';
 import Categories from '../components/Categories';
+import ProductCarousel from '../components/ProductCarousel';
+import RegistrationCta from '../components/RegistrationCta';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 
@@ -61,28 +63,22 @@ function Home() {
       {/* الأقسام */}
       <Categories />
 
-      {/* {احدث المنتجات  } */}
-      <div className='bg-bg-white py-5 w-full'>
-        <h2 className='text-3xl md:text-5xl font-bold text-text-dark py-10 md:py-20 text-center font-cairo'> أحدث المنتجات</h2>
-        <div className="container mx-auto px-6">
-          {loading ? (
-            <div className="text-center py-10">جاري التحميل...</div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 py-10">
-              {latestProducts.length > 0 ? (
-                latestProducts.map((product) => (
-                  <Card key={product._id} product={product} />
-                ))
-              ) : (
-                <div className="col-span-3 text-center text-text-light">لا توجد منتجات حالياً</div>
-              )}
-            </div>
-          )}
+      {/* قروصلاة المنتجات */}
+      <ProductCarousel
+        title="أحدث اللابتوبات"
+        products={products.filter(p => p.category?.toLowerCase() === 'laptops').slice(0, 8)}
+        isLoading={loading}
+      />
 
-
-        </div>
-
+      <div className="bg-bg-light">
+        <ProductCarousel
+          title="إكسسوارات مميزة"
+          products={products.filter(p => p.category?.toLowerCase() === 'accessories').slice(0, 8)}
+          isLoading={loading}
+        />
       </div>
+      <RegistrationCta />
+
       {/* { trust section } */}
       <TrustSection />
       <ReviewsSection />

@@ -22,31 +22,11 @@ function App() {
       {location.pathname !== '/login' && location.pathname !== '/admin' && <Navbar />}
 
       <Routes>
-        <Route path='/' element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
-        <Route path='/laptops' element={
-          <ProtectedRoute>
-            <Laptops />
-          </ProtectedRoute>
-        } />
-        <Route path='/laptops/:id' element={
-          <ProtectedRoute>
-            <ProductDetails />
-          </ProtectedRoute>
-        } />
-        <Route path='/accessories' element={
-          <ProtectedRoute>
-            <Accessories />
-          </ProtectedRoute>
-        } />
-        <Route path='/accessories/:id' element={
-          <ProtectedRoute>
-            <ProductDetails />
-          </ProtectedRoute>
-        } />
+        <Route path='/' element={<Home />} />
+        <Route path='/laptops' element={<Laptops />} />
+        <Route path='/laptops/:id' element={<ProductDetails />} />
+        <Route path='/accessories' element={<Accessories />} />
+        <Route path='/accessories/:id' element={<ProductDetails />} />
         <Route path='/cart' element={
           <ProtectedRoute>
             <Cart />
@@ -63,11 +43,7 @@ function App() {
             <AIAssistant />
           </ProtectedRoute>
         } />
-        <Route path='/about' element={
-          <ProtectedRoute>
-            <About />
-          </ProtectedRoute>
-        } />
+        <Route path='/about' element={<About />} />
       </Routes>
 
       {location.pathname !== '/login' && location.pathname !== '/admin' && <Footer />}

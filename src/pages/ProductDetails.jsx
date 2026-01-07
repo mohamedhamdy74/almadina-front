@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 import { addToCart } from '../redux/slices/cartSlice';
@@ -107,9 +107,15 @@ export default function ProductDetails() {
                         </p>
                     )}
 
-                    <p className="text-success font-bold text-2xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo">
-                        {product.price} ج.م
-                    </p>
+                    {user ? (
+                        <p className="text-success font-bold text-2xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo">
+                            {product.price} ج.م
+                        </p>
+                    ) : (
+                        <Link to="/login" className="text-primary-medium font-bold text-xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo hover:underline block">
+                            سجل لمشاهدة السعر
+                        </Link>
+                    )}
                     <p className="text-text-medium text-lg mb-4 animate-in fade-in duration-700 delay-300 font-cairo">{product.description}</p>
 
                     {/* المواصفات */}
