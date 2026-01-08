@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCart, removeFromCart, updateCartItem } from '../redux/slices/cartSlice';
+import { getImageUrl } from '../utils/imageUrl';
 
 // مكون عنصر السلة
 function CartItem({ item, onRemove, onUpdateQuantity }) {
