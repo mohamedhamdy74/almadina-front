@@ -12,6 +12,7 @@ import ProductDetails from "./pages/ProductDetails";
 import ProtectedRoute from './components/ProtectedRoute';
 import AIAssistant from "./pages/AIAssistant";
 import About from "./pages/About";
+import Profile from "./pages/Profile";
 import ScrollToTop from './components/ScrollToTop';
 
 
@@ -43,6 +44,11 @@ function App() {
         <Route path='/ai-assistant' element={
           <ProtectedRoute>
             <AIAssistant />
+          </ProtectedRoute>
+        } />
+        <Route path='/profile' element={
+          <ProtectedRoute>
+            <Profile />
           </ProtectedRoute>
         } />
         <Route path='/about' element={<About />} />

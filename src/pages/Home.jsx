@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import TrustSection from '../components/TrustSection';
-import ReviewsSection from '../components/ReviewsSection';
+
 import Categories from '../components/Categories';
 import ProductCarousel from '../components/ProductCarousel';
 import RegistrationCta from '../components/RegistrationCta';
@@ -81,7 +81,7 @@ function Home() {
 
       {/* { trust section } */}
       <TrustSection />
-      <ReviewsSection />
+
     </div>
   );
 }

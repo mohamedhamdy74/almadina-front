@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Send, Loader2, Bot, Wrench, MessageCircle, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../utils/imageUrl';
+
 
 const ChatInterface = ({ mode, endpoint, placeholder }) => {
     const [messages, setMessages] = useState([]);
@@ -140,8 +142,9 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                                             <div key={idx} className="bg-white rounded-xl shadow-md overflow-hidden border border-slate-100 hover:shadow-xl transition-all duration-300 group">
                                                 <div className="relative h-48 overflow-hidden bg-slate-100">
                                                     <img
-                                                        src={product.thumbnail}
+                                                        src={getImageUrl(product.thumbnail)}
                                                         alt={product.name}
+
                                                         className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
                                                     />
                                                 </div>
@@ -154,7 +157,7 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                                                     </p>
                                                     <div className="flex gap-2 pt-2">
                                                         <Link
-                                                            to={`/laptops/${product.id}`}
+                                                            to={`/${(product.category || 'laptops').toLowerCase()}/${product._id}`}
                                                             className="flex-1 flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-lg text-sm font-medium transition-colors"
                                                         >
                                                             <ExternalLink className="w-4 h-4" />

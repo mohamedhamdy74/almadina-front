@@ -64,19 +64,17 @@ const Navbar = () => {
 
                     {/* User / Auth Icon */}
                     {user ? (
-                        <div className="relative group">
-                            <button
-                                onClick={() => dispatch(logoutUser())}
-                                className="p-2 rounded-full text-slate-600 hover:text-red-600 hover:bg-red-50 transition duration-300"
-                                aria-label="Logout"
-                                title="تسجيل الخروج"
-                            >
-                                <LogOut className="w-6 h-6" />
-                            </button>
-                            <span className="absolute -top-1 -right-1 text-xs bg-green-500 text-white rounded-full px-2 py-0.5 shadow-sm">
-                                {user.role === 'admin' ? 'أدمن' : 'مستخدم'}
+                        <Link
+                            to="/profile"
+                            className="relative p-2 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition duration-300"
+                            aria-label="Profile"
+                            title="الملف الشخصي"
+                        >
+                            <User className="w-6 h-6" />
+                            <span className="absolute -top-1 -right-1 text-[10px] bg-green-500 text-white rounded-full px-1.5 py-0.5 shadow-sm">
+                                {user.role === 'admin' ? 'أدمن' : 'عميل'}
                             </span>
-                        </div>
+                        </Link>
                     ) : (
                         <Link
                             to="/login"
@@ -131,6 +129,16 @@ const Navbar = () => {
                                 {link.name}
                             </Link>
                         ))}
+                        {user && (
+                            <Link
+                                to="/profile"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 text-lg text-primary-medium bg-primary-light/10 rounded-xl transition-colors"
+                            >
+                                <User className="w-5 h-5" />
+                                الملف الشخصي
+                            </Link>
+                        )}
                     </div>
                 </div>
             )}

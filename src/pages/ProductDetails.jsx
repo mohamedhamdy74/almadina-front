@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 import { addToCart } from '../redux/slices/cartSlice';
+import { getImageUrl } from '../utils/imageUrl';
+
 
 export default function ProductDetails() {
     const { id } = useParams();
@@ -80,15 +82,16 @@ export default function ProductDetails() {
                 {/* معرض الصور */}
                 <div className="flex flex-col gap-4 items-center md:w-1/2">
                     <div className="relative group">
-                        <img src={mainImage} alt={product.name} className="w-full h-96 object-cover object-center rounded-2xl shadow-lg transition-all duration-500 group-hover:scale-105" />
+                        <img src={getImageUrl(mainImage)} alt={product.name} className="w-full h-96 object-cover object-center rounded-2xl shadow-lg transition-all duration-500 group-hover:scale-105" />
                         <span className="absolute top-2 left-2 bg-primary-medium text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">عرض حصري</span>
                     </div>
                     <div className="flex gap-2 mt-2">
                         {allImages.map((img, idx) => (
                             <img
                                 key={idx}
-                                src={img}
+                                src={getImageUrl(img)}
                                 alt={`صورة ${idx + 1}`}
+
                                 className={`w-20 h-20 object-cover object-center rounded-lg cursor-pointer border-2 transition-all duration-300 ${mainImage === img ? 'border-primary-medium scale-110' : 'border-bg-light hover:scale-105'}`}
                                 onClick={() => setMainImage(img)}
                             />

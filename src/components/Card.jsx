@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
+import { getImageUrl } from '../utils/imageUrl';
+
 
 function Card({ product, onEdit }) {
   const { user } = useSelector((state) => state.auth);
@@ -41,7 +43,7 @@ function Card({ product, onEdit }) {
   return (
     <div className="group relative flex flex-col overflow-hidden font-cairo h-full bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
       {/* Badge for Laptops */}
-      {product.category === 'laptops' && (
+      {product.category?.toLowerCase() === 'laptops' && (
         <div className="absolute top-4 right-4 z-20">
           <span className="bg-primary-medium text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
             استيراد الخارج
@@ -50,13 +52,14 @@ function Card({ product, onEdit }) {
       )}
 
       {/* صورة المنتج */}
-      <Link to={`/${product.category}/${product._id}`} className="block relative h-64 overflow-hidden">
+      <Link to={`/${product.category?.toLowerCase()}/${product._id}`} className="block relative h-64 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
         <img
-          src={product.thumbnail}
+          src={getImageUrl(product.thumbnail)}
           alt={product.name}
           className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-110"
         />
+
 
         {/* Quick Add Overlay */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-12 group-hover:translate-y-0 transition-all duration-500 z-20">
@@ -77,7 +80,7 @@ function Card({ product, onEdit }) {
         <div className="flex justify-between items-start mb-2">
           {/* الاسم والبراند */}
           <div className="flex-1">
-            <Link to={`/${product.category}/${product._id}`}>
+            <Link to={`/${product.category?.toLowerCase()}/${product._id}`}>
               <h3 className="text-lg font-bold text-text-dark group-hover:text-primary-medium transition-colors line-clamp-1">
                 {product.name}
               </h3>
@@ -121,7 +124,7 @@ function Card({ product, onEdit }) {
         {/* Action Buttons */}
         <div className="mt-auto flex items-center gap-3">
           <Link
-            to={`/${product.category}/${product._id}`}
+            to={`/${product.category?.toLowerCase()}/${product._id}`}
             className="flex-1 bg-gray-50 text-text-dark text-sm font-bold py-3 rounded-xl text-center hover:bg-gray-100 transition-colors border border-gray-100"
           >
             التفاصيل
