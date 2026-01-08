@@ -2,7 +2,7 @@ export const getImageUrl = (url) => {
     if (!url) return '';
 
     // If it's already a full URL (Cloudinary or otherwise), return as is
-    if (url.startsWith('http')) {
+    if (url.startsWith('http') || url.startsWith('//') || url.startsWith('data:')) {
         return url;
     }
 
@@ -12,8 +12,8 @@ export const getImageUrl = (url) => {
     // Remove "/api" from the end of the API URL to get the base backend URL
     const baseUrl = API_URL.replace(/\/api\/?$/, '');
 
-    // Ensure the URL starts with a slash
-    const cleanUrl = url.startsWith('/') ? url : `/${url}`;
+    // Ensure the URL starts with a slash and replace backslashes (Windows paths)
+    const cleanUrl = (url.startsWith('/') ? url : `/${url}`).replace(/\\/g, '/');
 
     return `${baseUrl}${cleanUrl}`;
 };

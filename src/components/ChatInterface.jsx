@@ -142,10 +142,13 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                                             <div key={idx} className="bg-white rounded-xl shadow-md overflow-hidden border border-slate-100 hover:shadow-xl transition-all duration-300 group">
                                                 <div className="relative h-48 overflow-hidden bg-slate-100">
                                                     <img
-                                                        src={getImageUrl(product.thumbnail)}
+                                                        src={getImageUrl(product.thumbnail || product.image || (product.images && product.images[0]))}
                                                         alt={product.name}
-
-                                                        className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                        onError={(e) => {
+                                                            e.target.src = 'https://placehold.co/600x400/f3f4f6/374151?text=' + encodeURIComponent(product.name);
+                                                            e.target.onerror = null;
+                                                        }}
                                                     />
                                                 </div>
                                                 <div className="p-4 space-y-3">

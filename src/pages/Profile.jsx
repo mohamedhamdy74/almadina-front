@@ -45,7 +45,7 @@ const Profile = () => {
                     <div className="pt-16 pb-8 px-12">
                         <h1 className="text-3xl font-bold text-text-dark mb-2">{user.name}</h1>
                         <span className="inline-block px-3 py-1 bg-primary-light/20 text-primary-dark rounded-full text-sm font-bold">
-                            {user.role === 'admin' ? 'مدير النظام' : 'عميل متواضع'}
+                            {user.role === 'admin' ? 'مدير النظام' : 'عميل'}
                         </span>
                     </div>
                 </div>

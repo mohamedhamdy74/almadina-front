@@ -28,7 +28,7 @@ export default function ProductDetails() {
             const foundProduct = products.find(p => p._id === id);
             if (foundProduct) {
                 setProduct(foundProduct);
-                setMainImage(foundProduct.thumbnail);
+                setMainImage(foundProduct.thumbnail || foundProduct.image || (foundProduct.images && foundProduct.images[0]) || '');
             }
         }
     }, [products, id]);
@@ -74,7 +74,10 @@ export default function ProductDetails() {
         );
     }
 
-    const allImages = [product.thumbnail, ...(product.images || [])];
+    const allImages = [
+        (product.thumbnail || product.image || (product.images && product.images[0])),
+        ...(product.images || [])
+    ].filter(img => img && typeof img === 'string'); // Filter out empty or duplicate if needed, keep it simple for now
 
     return (
         <div className="container mx-auto py-12 pt-40 animate-in fade-in duration-700 font-cairo">
@@ -82,7 +85,15 @@ export default function ProductDetails() {
                 {/* معرض الصور */}
                 <div className="flex flex-col gap-4 items-center md:w-1/2">
                     <div className="relative group">
-                        <img src={getImageUrl(mainImage)} alt={product.name} className="w-full h-96 object-cover object-center rounded-2xl shadow-lg transition-all duration-500 group-hover:scale-105" />
+                        <img
+                            src={getImageUrl(mainImage)}
+                            alt={product.name}
+                            className="w-full h-96 object-cover object-center rounded-2xl shadow-lg transition-all duration-500 group-hover:scale-105"
+                            onError={(e) => {
+                                e.target.src = 'https://placehold.co/600x400/f3f4f6/374151?text=' + encodeURIComponent(product.name);
+                                e.target.onerror = null;
+                            }}
+                        />
                         <span className="absolute top-2 left-2 bg-primary-medium text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">عرض حصري</span>
                     </div>
                     <div className="flex gap-2 mt-2">

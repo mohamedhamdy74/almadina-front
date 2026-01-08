@@ -13,9 +13,13 @@ function CartItem({ item, onRemove, onUpdateQuantity }) {
     <div className="flex items-center justify-between p-6 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 animate-in fade-in slide-in-from-left duration-700">
       <div className="flex items-center space-x-4 space-x-reverse">
         <img
-          src={product.imageUrl || 'https://via.placeholder.com/150'}
+          src={getImageUrl(product.thumbnail || product.imageUrl || product.image || (product.images && product.images[0]))}
           alt={product.name}
           className="w-24 h-24 object-cover rounded-xl border border-slate-100"
+          onError={(e) => {
+            e.target.src = 'https://placehold.co/150x150/f3f4f6/374151?text=' + encodeURIComponent(product.name);
+            e.target.onerror = null;
+          }}
         />
         <div>
           <h3 className="text-lg font-bold text-slate-800">{product.name}</h3>

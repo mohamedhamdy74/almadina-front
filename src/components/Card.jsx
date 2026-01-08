@@ -53,12 +53,16 @@ function Card({ product, onEdit }) {
 
       {/* صورة المنتج */}
       <Link to={`/${product.category?.toLowerCase()}/${product._id}`} className="block relative h-64 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
         <img
-          src={getImageUrl(product.thumbnail)}
+          src={getImageUrl(product.thumbnail || product.image || (product.images && product.images[0]))}
           alt={product.name}
           className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-110"
+          onError={(e) => {
+            e.target.src = 'https://placehold.co/600x400/f3f4f6/374151?text=' + encodeURIComponent(product.name);
+            e.target.onerror = null;
+          }}
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
 
 
         {/* Quick Add Overlay */}
