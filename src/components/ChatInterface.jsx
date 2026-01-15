@@ -41,17 +41,26 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     message: userMessage,
                     conversationHistory: messages,
                 }),
             });
 
-            if (!response.ok) {
-                throw new Error('فشل في الحصول على الرد');
-            }
-
             const data = await response.json();
+
+            if (!response.ok) {
+                if (response.status === 429) {
+                    const limitMessage = {
+                        role: 'assistant',
+                        content: data.message || "خلصت سؤالك النهاردة يا بطل! تقدر تسأل تاني بكرة بإذن الله. 😉",
+                    };
+                    setMessages(prev => [...prev, limitMessage]);
+                    return;
+                }
+                throw new Error(data.message || 'فشل في الحصول على الرد');
+            }
 
             // Add AI response to chat
             const aiMessage = {
