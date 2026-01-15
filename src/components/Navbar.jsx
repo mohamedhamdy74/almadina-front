@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUser } from '../redux/slices/authSlice';
-import { Bot, Search, User, ShoppingCart, Menu, X, LogOut } from 'lucide-react';
+import { Bot, User, ShoppingCart, Menu, X, LogOut } from 'lucide-react';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const dispatch = useDispatch();
     const { user } = useSelector((state) => state.auth);
     const { itemCount } = useSelector((state) => state.cart);
@@ -53,15 +52,6 @@ const Navbar = () => {
 
                 {/* Right Section: Icons & Mobile Menu Button */}
                 <div className="flex items-center space-x-4">
-                    {/* Search Icon */}
-                    <button
-                        onClick={() => setIsSearchOpen(!isSearchOpen)}
-                        className="p-2 rounded-full text-slate-600 hover:text-blue-600 hover:bg-slate-100 transition duration-300"
-                        aria-label="Search"
-                    >
-                        <Search className="w-6 h-6" />
-                    </button>
-
                     {/* User / Auth Icon */}
                     {user ? (
                         <Link
@@ -139,22 +129,6 @@ const Navbar = () => {
                                 الملف الشخصي
                             </Link>
                         )}
-                    </div>
-                </div>
-            )}
-
-            {/* Search Input Dropdown */}
-            {isSearchOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 md:mx-auto md:w-1/2 animate-in fade-in slide-in-from-top-5 duration-300">
-                    <div className="relative">
-                        <input
-                            type="text"
-                            placeholder="ابحث عن المنتجات..."
-                            className="w-full p-4 pr-12 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-slate-700"
-                            dir="rtl"
-                            autoFocus
-                        />
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
                     </div>
                 </div>
             )}

@@ -9,6 +9,7 @@ export default function Accessories() {
   const dispatch = useDispatch();
   const { items: products, loading, error } = useSelector((state) => state.products);
   const [selectedType, setSelectedType] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -43,13 +44,17 @@ export default function Accessories() {
     [accessories]
   );
 
-  // Filter products by selected subcategory
-  const filteredProducts = useMemo(() =>
-    selectedType
-      ? accessories.filter(p => p.subCategory === selectedType)
-      : accessories,
-    [accessories, selectedType]
-  );
+  // Filter products by selected subcategory and search term
+  const filteredProducts = useMemo(() => {
+    return accessories.filter(p => {
+      const matchesType = selectedType ? p.subCategory === selectedType : true;
+      const matchesSearch = searchTerm
+        ? p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (p.description && p.description.toLowerCase().includes(searchTerm.toLowerCase()))
+        : true;
+      return matchesType && matchesSearch;
+    });
+  }, [accessories, selectedType, searchTerm]);
 
   return (
     <div className="font-cairo bg-bg-white pt-32">
@@ -59,19 +64,31 @@ export default function Accessories() {
           <p className="mt-2 text-text-light">سماعات، ماوس، كيبورد وإكسسوارات أصلية.</p>
         </header>
 
-        {/* Type Filter */}
-        <div className="mb-8">
-          <label className="block text-sm font-medium text-text-dark mb-2">تصفية حسب النوع</label>
-          <select
-            value={selectedType}
-            onChange={(e) => handleTypeChange(e.target.value)}
-            className="px-4 py-2 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
-          >
-            <option value="">جميع المنتجات</option>
-            {types.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
+        {/* Filters and Search */}
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
+          <div className="flex-1">
+            <label className="block text-sm font-medium text-text-dark mb-2">بحث عن إكسسوار</label>
+            <input
+              type="text"
+              placeholder="ابحث بالاسم أو الوصف..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+            />
+          </div>
+          <div className="w-full md:w-64">
+            <label className="block text-sm font-medium text-text-dark mb-2">تصفية حسب النوع</label>
+            <select
+              value={selectedType}
+              onChange={(e) => handleTypeChange(e.target.value)}
+              className="w-full px-4 py-2 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+            >
+              <option value="">جميع المنتجات</option>
+              {types.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Loading State */}
