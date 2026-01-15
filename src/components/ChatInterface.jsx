@@ -14,11 +14,11 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
 
-    useEffect(() => {
-        if (messages.length > 0) {
-            scrollToBottom();
-        }
-    }, [messages]);
+    // useEffect(() => {
+    //     if (messages.length > 0) {
+    //         scrollToBottom();
+    //     }
+    // }, [messages]);
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -114,6 +114,11 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                                         ? 'أخبرني عن استخدامك وميزانيتك، وسأرشح لك أفضل الخيارات المتاحة في المتجر'
                                         : 'صف لي المشكلة التي تواجهها وسأساعدك في حلها خطوة بخطوة'}
                                 </p>
+                                <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 max-w-sm mx-auto shadow-sm">
+                                    <p className="text-amber-800 text-sm font-medium flex items-center justify-center gap-2">
+                                        ⚠️ تنبيه: مسموح بسؤال واحد فقط يومياً بالذكاء الاصطناعي، فتأكد من كتابة كل ما تحتاجه بدقة.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
