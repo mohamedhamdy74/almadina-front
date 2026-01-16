@@ -69,7 +69,8 @@ export default function UserManagement({ users }) {
                 />
             </div>
 
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden md:block overflow-x-auto">
                 <table className="w-full">
                     <thead className="bg-gradient-to-r from-primary-medium to-primary-dark text-bg-white">
                         <tr>
@@ -130,13 +131,61 @@ export default function UserManagement({ users }) {
                         ) : (
                             <tr>
                                 <td colSpan="8" className="px-6 py-12 text-center text-text-light">
-                                    لا توجد مستخدمين
+                                    لا يوجد مستخدمين
                                 </td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
+
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-4">
+                {filteredUsers.length > 0 ? (
+                    filteredUsers.map((user) => (
+                        <div key={user._id} className="bg-bg-light/30 p-4 rounded-xl border border-bg-light shadow-sm">
+                            <div className="flex justify-between items-start mb-3">
+                                <div>
+                                    <h3 className="font-bold text-lg text-text-dark">{user.name}</h3>
+                                    <p className="text-sm text-text-medium">{user.email}</p>
+                                </div>
+                                <span
+                                    className={`px-3 py-1 rounded-full text-xs font-semibold ${user.role === 'admin'
+                                        ? 'bg-accent-pink text-bg-white'
+                                        : 'bg-success/20 text-success'
+                                        }`}
+                                >
+                                    {user.role === 'admin' ? 'أدمن' : 'مستخدم'}
+                                </span>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2 mb-4 text-sm text-text-light">
+                                <div><span className="font-semibold text-text-medium ml-1">الهاتف:</span> {user.phone || '-'}</div>
+                                <div><span className="font-semibold text-text-medium ml-1">المحافظة:</span> {user.governorate || '-'}</div>
+                                <div className="col-span-2 text-xs"><span className="font-semibold text-text-medium ml-1">تاريخ الإنشاء:</span> {formatDate(user.createdAt)}</div>
+                            </div>
+                            <div className="flex gap-2 border-t border-bg-light pt-3">
+                                <button
+                                    onClick={() => handleEdit(user)}
+                                    className="flex-1 py-2 bg-primary-medium text-bg-white rounded-lg font-semibold text-sm transition-all"
+                                >
+                                    تعديل
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(user._id)}
+                                    className="flex-1 py-2 bg-accent-pink text-bg-white rounded-lg font-semibold text-sm transition-all"
+                                >
+                                    حذف
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="text-center py-12 text-text-light">
+                        لا يوجد مستخدمين
+                    </div>
+                )}
+            </div>
+
 
             {/* Edit Modal */}
             {isModalOpen && (

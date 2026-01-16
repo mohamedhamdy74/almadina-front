@@ -16,6 +16,7 @@ export default function Admin() {
   const { items: users } = useSelector((state) => state.users);
 
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Check if user is admin
   useEffect(() => {
@@ -30,12 +31,30 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-bg-light to-bg-white" dir="rtl">
       {/* Sidebar */}
-      <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+      <Sidebar
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
 
       {/* Main Content */}
-      <div className="mr-64 p-8">
+      <div className="lg:mr-64 p-4 lg:p-8">
+        {/* Mobile Header with Toggle */}
+        <div className="flex items-center justify-between mb-8 lg:hidden">
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            className="p-2 bg-primary-medium text-bg-white rounded-lg shadow-md hover:bg-primary-dark transition-colors"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          </button>
+          <h1 className="text-2xl font-bold text-text-dark">لوحة التحكم</h1>
+        </div>
+
         {/* Header */}
-        <header className="mb-8 animate-in fade-in slide-in-from-top duration-500">
+        <header className="mb-8 animate-in fade-in slide-in-from-top duration-500 hidden lg:block">
           <h1 className="text-4xl font-bold text-text-dark mb-2">
             {activeSection === 'dashboard' && 'لوحة التحكم'}
             {activeSection === 'users' && 'إدارة المستخدمين'}

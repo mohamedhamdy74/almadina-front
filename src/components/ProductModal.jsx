@@ -211,8 +211,8 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-start justify-center p-4 pt-12 pb-12 z-50 animate-in fade-in duration-300 overflow-y-auto">
-            <div className="bg-bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl animate-in zoom-in duration-500 relative my-12 max-h-[85vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-start justify-center p-2 sm:p-4 pt-4 pb-4 sm:pt-12 sm:pb-12 z-50 animate-in fade-in duration-300 overflow-y-auto">
+            <div className="bg-bg-white p-4 sm:p-8 rounded-2xl shadow-2xl w-full max-w-4xl animate-in zoom-in duration-500 relative my-4 sm:my-12 max-h-[90vh] overflow-y-auto">
                 {/* زر الخروج */}
                 <button
                     onClick={onClose}
