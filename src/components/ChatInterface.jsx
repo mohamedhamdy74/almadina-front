@@ -65,8 +65,8 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
             // Add AI response to chat
             const aiMessage = {
                 role: 'assistant',
-                content: data.message,
-                retrievedProducts: data.retrievedProducts || null,
+                content: data.reply, // Corrected to match backend 'reply' field
+                retrievedProducts: data.recommendedProducts || null,
             };
             setMessages(prev => [...prev, aiMessage]);
 
