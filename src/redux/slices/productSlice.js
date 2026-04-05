@@ -11,7 +11,9 @@ export const fetchProducts = createAsyncThunk(
   async (filters = {}, { rejectWithValue }) => {
     try {
       const queryParams = new URLSearchParams(filters).toString();
-      const response = await fetch(`${API_BASE}/products?${queryParams}`);
+      const response = await fetch(`${API_BASE}/products?${queryParams}`, {
+        credentials: 'include', // Send cookies if available
+      });
 
       if (!response.ok) {
         throw new Error('Failed to fetch products');
@@ -24,6 +26,7 @@ export const fetchProducts = createAsyncThunk(
     }
   }
 );
+
 
 export const createProduct = createAsyncThunk(
   'products/createProduct',
