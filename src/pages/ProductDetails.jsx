@@ -94,7 +94,9 @@ export default function ProductDetails() {
                                 e.target.onerror = null;
                             }}
                         />
-                        <span className="absolute top-2 left-2 bg-primary-medium text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">عرض حصري</span>
+                        {product.isDailyOffer && <span className="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500 animate-pulse">🔥 عرض اليوم</span>}
+                        {product.isWeeklyOffer && <span className="absolute top-2 right-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">⭐ عرض الأسبوع</span>}
+                        {product.isAvailable === false && <span className="absolute bottom-2 left-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">غير متاح</span>}
                     </div>
                     <div className="flex gap-2 mt-2">
                         {allImages.map((img, idx) => (
@@ -121,14 +123,21 @@ export default function ProductDetails() {
                         </p>
                     )}
 
-                    {user ? (
-                        <p className="text-success font-bold text-2xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo">
-                            {product.price} ج.م
-                        </p>
+                    <p className="text-success font-bold text-2xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo">
+                        {(Number(product.price) || 0).toLocaleString()} ج.م
+                    </p>
+
+                    {/* حالة التوفر */}
+                    {product.isAvailable === false ? (
+                        <div className="inline-flex items-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-bold mb-2 border border-red-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                            غير متاح حالياً
+                        </div>
                     ) : (
-                        <Link to="/login" className="text-primary-medium font-bold text-xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo hover:underline block">
-                            سجل لمشاهدة السعر
-                        </Link>
+                        <div className="inline-flex items-center gap-2 bg-green-50 text-green-600 px-4 py-2 rounded-xl text-sm font-bold mb-2 border border-green-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                            متاح
+                        </div>
                     )}
                     <p className="text-text-medium text-lg mb-4 animate-in fade-in duration-700 delay-300 font-cairo">{product.description}</p>
 
@@ -207,7 +216,7 @@ export default function ProductDetails() {
                         >
                             {addingToCart ? 'جاري الإضافة...' : 'إضافة إلى السلة'}
                         </button>
-                        <a href={`https://wa.me/201553091959?text=أرغب%20في%20شراء%20${encodeURIComponent(product.name)}`} target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-green-500 text-white rounded-xl font-bold text-xl flex items-center justify-center gap-2 shadow-lg hover:bg-green-600 transition-all duration-500 animate-in zoom-in delay-800 font-cairo">
+                        <a href={`https://wa.me/201031936484?text=أرغب%20في%20شراء%20${encodeURIComponent(product.name)}`} target="_blank" rel="noopener noreferrer" className="w-full py-4 bg-green-500 text-white rounded-xl font-bold text-xl flex items-center justify-center gap-2 shadow-lg hover:bg-green-600 transition-all duration-500 animate-in zoom-in delay-800 font-cairo">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16.72 11.06a6.5 6.5 0 10-5.66 5.66l2.12-.53a1 1 0 01.98.26l1.54 1.54a1 1 0 001.41 0l2.12-2.12a1 1 0 000-1.41l-1.54-1.54a1 1 0 01-.26-.98l.53-2.12z" /></svg>
                             تواصل واتساب
                         </a>

@@ -27,6 +27,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
         handleSubmit: handleProductSubmit,
         formState: { errors: productErrors },
         reset: resetProductForm,
+        watch: watchProduct,
     } = useForm({
         resolver: yupResolver(productSchema),
         defaultValues: {
@@ -35,6 +36,9 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
             price: '',
             description: '',
             category: 'Accessories',
+            isAvailable: true,
+            isDailyOffer: false,
+            isWeeklyOffer: false,
         },
     });
 
@@ -51,6 +55,9 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                     description: productToEdit.description || '',
                     category: productToEdit.category || 'Accessories',
                     subCategory: productToEdit.subCategory || '',
+                    isAvailable: productToEdit.isAvailable !== false,
+                    isDailyOffer: productToEdit.isDailyOffer || false,
+                    isWeeklyOffer: productToEdit.isWeeklyOffer || false,
                     // Flatten specifications
                     cpu: productToEdit.specifications?.cpu || '',
                     ramMemory: productToEdit.specifications?.ramMemory || '',
@@ -73,6 +80,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                 resetProductForm({
                     name: '', brand: '', model: '', price: '', description: '',
                     category: defaultCategory || 'Accessories', subCategory: '',
+                    isAvailable: true, isDailyOffer: false, isWeeklyOffer: false,
                     cpu: '', ramMemory: '', hardDiskSize: '', screenSize: '',
                     color: '', graphicsDescription: '', operatingSystem: '', specialFeatures: ''
                 });
@@ -139,6 +147,11 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
             if (data.subCategory?.trim()) {
                 formData.append('subCategory', data.subCategory.trim());
             }
+
+            // Add availability and offer fields
+            formData.append('isAvailable', data.isAvailable ? 'true' : 'false');
+            formData.append('isDailyOffer', data.isDailyOffer ? 'true' : 'false');
+            formData.append('isWeeklyOffer', data.isWeeklyOffer ? 'true' : 'false');
 
             // Add specifications
             const specifications = {};
@@ -293,6 +306,51 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                                 className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
                             />
                             <p className="text-xs text-text-light mt-1">للإكسسوارات: Mouse, Keyboard, Headphone</p>
+                        </div>
+                    </div>
+
+                    {/* إعدادات التوفر والعروض */}
+                    <div className="border-t pt-4">
+                        <h3 className="text-lg font-semibold text-text-dark mb-4">إعدادات التوفر والعروض</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {/* متاح / غير متاح */}
+                            <label className="flex items-center gap-3 p-4 border border-bg-light rounded-xl cursor-pointer hover:bg-bg-light/50 transition-all">
+                                <input
+                                    type="checkbox"
+                                    {...productRegister('isAvailable')}
+                                    className="w-5 h-5 rounded text-primary-medium focus:ring-primary-medium"
+                                />
+                                <div>
+                                    <span className="font-semibold text-text-dark block">متاح</span>
+                                    <span className="text-xs text-text-light">الجهاز متوفر للبيع</span>
+                                </div>
+                            </label>
+
+                            {/* عرض اليوم */}
+                            <label className="flex items-center gap-3 p-4 border border-orange-200 rounded-xl cursor-pointer hover:bg-orange-50/50 transition-all">
+                                <input
+                                    type="checkbox"
+                                    {...productRegister('isDailyOffer')}
+                                    className="w-5 h-5 rounded text-orange-500 focus:ring-orange-500"
+                                />
+                                <div>
+                                    <span className="font-semibold text-text-dark block">🔥 عرض اليوم</span>
+                                    <span className="text-xs text-text-light">يظهر في سيكشن عرض اليوم</span>
+                                </div>
+                            </label>
+
+                            {/* عرض الأسبوع */}
+                            <label className="flex items-center gap-3 p-4 border border-purple-200 rounded-xl cursor-pointer hover:bg-purple-50/50 transition-all">
+                                <input
+                                    type="checkbox"
+                                    {...productRegister('isWeeklyOffer')}
+                                    className="w-5 h-5 rounded text-purple-500 focus:ring-purple-500"
+                                />
+                                <div>
+                                    <span className="font-semibold text-text-dark block">⭐ عرض الأسبوع</span>
+                                    <span className="text-xs text-text-light">يظهر في سيكشن عرض الأسبوع</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
 

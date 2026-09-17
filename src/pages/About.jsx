@@ -78,8 +78,8 @@ export default function About() {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-bold mb-1">رقم الهاتف</h3>
-                                    <a href="tel:+201553091959" className="text-gray-100 hover:text-white transition-colors text-lg dir-ltr block text-right">
-                                        01553091959
+                                    <a href="tel:+201031936484" className="text-gray-100 hover:text-white transition-colors text-lg dir-ltr block text-right">
+                                        010 31936484
                                     </a>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@ export default function About() {
 
                             <div className="pt-8 mt-8 border-t border-white/20">
                                 <a
-                                    href="https://wa.me/201553091959"
+                                    href="https://wa.me/201031936484"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full block text-center bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-4 rounded-xl transition-colors duration-300 shadow-lg"

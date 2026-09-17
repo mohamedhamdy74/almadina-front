@@ -116,12 +116,24 @@ export default function ProductsByCategory({ products }) {
                                                 <img
                                                     src={product.thumbnail}
                                                     alt={product.name}
-                                                    className="w-full h-40 object-cover rounded-lg mb-3"
+                                                    className={`w-full h-40 object-cover rounded-lg mb-3 ${product.isAvailable === false ? 'opacity-50' : ''}`}
                                                 />
+                                                {/* Badges */}
+                                                <div className="flex flex-wrap gap-1 mb-2">
+                                                    {product.isAvailable === false && (
+                                                        <span className="bg-red-100 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded-full">غير متاح</span>
+                                                    )}
+                                                    {product.isDailyOffer && (
+                                                        <span className="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full">🔥 عرض اليوم</span>
+                                                    )}
+                                                    {product.isWeeklyOffer && (
+                                                        <span className="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ عرض الأسبوع</span>
+                                                    )}
+                                                </div>
                                                 <h4 className="text-lg font-bold text-text-dark mb-2 line-clamp-1">
                                                     {product.name}
                                                 </h4>
-                                                <p className="text-success font-semibold mb-2">{product.price} ج.م</p>
+                                                <p className="text-success font-semibold mb-2">{(Number(product.price) || 0).toLocaleString()} ج.م</p>
                                                 <p className="text-text-light text-sm mb-3 line-clamp-2">
                                                     {product.description}
                                                 </p>

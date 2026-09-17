@@ -17,7 +17,7 @@ export default function Footer() {
 
             <div className="flex gap-3 mt-3">
               <a
-                href="https://wa.me/201553091959"
+                href="https://wa.me/201031936484"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-md border border-white/20 bg-bg-white/10 px-3 py-2 text-sm transition hover:scale-105"
@@ -70,10 +70,10 @@ export default function Footer() {
               <div>
                 <p className="font-medium">رقم التليفون</p>
                 <a
-                  href="tel:+201553091959"
+                  href="tel:+201031936484"
                   className="block text-bg-light text-sm hover:underline"
                 >
-                  01553091959
+                  010 31936484
                 </a>
               </div>
             </div>

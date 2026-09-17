@@ -41,12 +41,31 @@ function Card({ product, onEdit }) {
   }
 
   return (
-    <div className="group relative flex flex-col overflow-hidden font-cairo h-full bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
-      {/* Badge for Laptops */}
-      {product.category?.toLowerCase() === 'laptops' && (
-        <div className="absolute top-4 right-4 z-20">
+    <div className={`group relative flex flex-col overflow-hidden font-cairo h-full bg-white rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 ${product.isAvailable === false ? 'opacity-75' : ''}`}>
+      {/* Badges */}
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+        {product.category?.toLowerCase() === 'laptops' && (
           <span className="bg-primary-medium text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
             استيراد الخارج
+          </span>
+        )}
+        {product.isDailyOffer && (
+          <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
+            🔥 عرض اليوم
+          </span>
+        )}
+        {product.isWeeklyOffer && (
+          <span className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
+            ⭐ عرض الأسبوع
+          </span>
+        )}
+      </div>
+
+      {/* Badge غير متاح */}
+      {product.isAvailable === false && (
+        <div className="absolute top-4 left-4 z-20">
+          <span className="bg-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
+            غير متاح
           </span>
         </div>
       )}
@@ -64,19 +83,27 @@ function Card({ product, onEdit }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
 
+        {/* Overlay غير متاح */}
+        {product.isAvailable === false && (
+          <div className="absolute inset-0 bg-black/30 flex items-center justify-center z-10">
+            <span className="bg-red-600/90 text-white text-sm font-bold px-6 py-2 rounded-full">غير متاح حالياً</span>
+          </div>
+        )}
 
         {/* Quick Add Overlay */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-12 group-hover:translate-y-0 transition-all duration-500 z-20">
-          <button
-            onClick={handleAddToCart}
-            disabled={addingToCart}
-            className="bg-white/90 backdrop-blur-sm text-primary-dark p-3 rounded-full shadow-xl hover:bg-primary-dark hover:text-white transition-colors duration-300"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-          </button>
-        </div>
+        {product.isAvailable !== false && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-12 group-hover:translate-y-0 transition-all duration-500 z-20">
+            <button
+              onClick={handleAddToCart}
+              disabled={addingToCart}
+              className="bg-white/90 backdrop-blur-sm text-primary-dark p-3 rounded-full shadow-xl hover:bg-primary-dark hover:text-white transition-colors duration-300"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+          </div>
+        )}
       </Link>
 
       {/* المحتوى */}
@@ -96,20 +123,14 @@ function Card({ product, onEdit }) {
             )}
           </div>
 
-          {/* السعر */}
+          {/* السعر - يظهر للجميع */}
           <div className="text-left">
-            {user ? (
-              <div className="flex flex-col items-end">
-                <span className="text-xl font-black text-primary-dark">
-                  {(Number(product.price) || 0).toLocaleString()}
-                </span>
-                <span className="text-[10px] font-bold text-text-light -mt-1">ج.م</span>
-              </div>
-            ) : (
-              <Link to="/login" className="bg-primary-light/10 text-primary-medium text-[10px] font-bold px-2 py-1 rounded hover:bg-primary-medium hover:text-white transition-colors">
-                عرض السعر
-              </Link>
-            )}
+            <div className="flex flex-col items-end">
+              <span className="text-xl font-black text-primary-dark">
+                {(Number(product.price) || 0).toLocaleString()}
+              </span>
+              <span className="text-[10px] font-bold text-text-light -mt-1">ج.م</span>
+            </div>
           </div>
         </div>
 
@@ -159,3 +180,4 @@ function Card({ product, onEdit }) {
 }
 
 export default Card;
+

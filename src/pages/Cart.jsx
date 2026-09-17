@@ -87,7 +87,7 @@ export default function Cart() {
     });
     message += `\nالمجموع الكلي: ${totalAmount.toLocaleString()} ج.م`;
 
-    const url = `https://wa.me/201553091959?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/201031936484?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
 

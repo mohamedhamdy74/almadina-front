@@ -18,7 +18,7 @@ const RegistrationCta = () => {
                             انضم إلينا اليوم واستمتع <br /> <span className="text-secondary-light">بمزايا حصرية!</span>
                         </h2>
                         <p className="text-white/80 text-lg mb-10 max-w-2xl mx-auto lg:mx-0 font-cairo">
-                            سجل حسابك الآن لتتمكن من مشاهدة الأسعار الخاصة، الحصول على استشارات تقنية من مساعدنا الذكي، ومتابعة أحدث عروضنا أولاً بأول.
+                            سجل حسابك الآن لتتمكن من الحصول على استشارات تقنية من مساعدنا الذكي، إتمام طلباتك بسرعة، ومتابعة أحدث عروضنا أولاً بأول.
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 text-right">
