@@ -124,9 +124,21 @@ export default function ProductDetails() {
                         </p>
                     )}
 
-                    <p className="text-success font-bold text-2xl mb-2 animate-in fade-in duration-700 delay-200 font-cairo">
-                        {(Number(product.price) || 0).toLocaleString()} ج.م
-                    </p>
+                    <div className="flex items-center gap-3 mb-2 animate-in fade-in duration-700 delay-200">
+                        <p className="text-success font-bold text-3xl font-cairo">
+                            {(Number(product.price) || 0).toLocaleString()} ج.م
+                        </p>
+                        {product.oldPrice && Number(product.oldPrice) > 0 && (
+                            <span className="text-gray-400 text-xl line-through font-semibold font-cairo">
+                                {(Number(product.oldPrice) || 0).toLocaleString()} ج.م
+                            </span>
+                        )}
+                        {product.oldPrice && Number(product.oldPrice) > Number(product.price) && (
+                            <span className="bg-red-100 text-red-600 text-xs font-bold px-2.5 py-1 rounded-full">
+                                خصم {Math.round(((Number(product.oldPrice) - Number(product.price)) / Number(product.oldPrice)) * 100)}%
+                            </span>
+                        )}
+                    </div>
 
                     {/* حالة التوفر */}
                     {product.isAvailable === false ? (

@@ -128,10 +128,17 @@ function Card({ product, onEdit }) {
           {/* السعر - يظهر للجميع */}
           <div className="text-left">
             <div className="flex flex-col items-end">
-              <span className="text-xl font-black text-primary-dark">
-                {(Number(product.price) || 0).toLocaleString()}
-              </span>
-              <span className="text-[10px] font-bold text-text-light -mt-1">ج.م</span>
+              {product.oldPrice && Number(product.oldPrice) > 0 && (
+                <span className="text-xs text-gray-400 line-through font-semibold">
+                  {Number(product.oldPrice).toLocaleString()} ج.م
+                </span>
+              )}
+              <div className="flex items-baseline gap-1">
+                <span className="text-xl font-black text-primary-dark">
+                  {(Number(product.price) || 0).toLocaleString()}
+                </span>
+                <span className="text-[10px] font-bold text-text-light -mt-1">ج.م</span>
+              </div>
             </div>
           </div>
         </div>

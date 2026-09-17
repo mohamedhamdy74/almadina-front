@@ -140,7 +140,12 @@ export default function ProductsByCategory({ products }) {
                                                 <h4 className="text-lg font-bold text-text-dark mb-2 line-clamp-1">
                                                     {product.name}
                                                 </h4>
-                                                <p className="text-success font-semibold mb-2">{(Number(product.price) || 0).toLocaleString()} ج.م</p>
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <span className="text-success font-semibold">{(Number(product.price) || 0).toLocaleString()} ج.م</span>
+                                                    {product.oldPrice && Number(product.oldPrice) > 0 && (
+                                                        <span className="text-gray-400 text-xs line-through font-medium">{(Number(product.oldPrice) || 0).toLocaleString()} ج.م</span>
+                                                    )}
+                                                </div>
                                                 <p className="text-text-light text-sm mb-3 line-clamp-2">
                                                     {product.description}
                                                 </p>

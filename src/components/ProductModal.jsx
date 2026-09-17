@@ -19,6 +19,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
         name: yup.string().required('اسم المنتج مطلوب'),
         brand: yup.string().required('الماركة مطلوبة'),
         price: yup.number().typeError('السعر يجب أن يكون رقم').required('السعر مطلوب'),
+        oldPrice: yup.number().transform((value, originalValue) => originalValue === '' ? null : value).nullable().typeError('السعر القديم يجب أن يكون رقم'),
         description: yup.string().required('الوصف مطلوب'),
         category: yup.string().required('الفئة مطلوبة'),
         subCategory: yup.string().nullable(),
@@ -48,6 +49,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
             name: '',
             brand: '',
             price: '',
+            oldPrice: '',
             description: '',
             category: 'Accessories',
             isAvailable: true,
@@ -66,6 +68,7 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                     brand: productToEdit.brand || '',
                     model: productToEdit.model || '',
                     price: productToEdit.price || '',
+                    oldPrice: productToEdit.oldPrice || '',
                     description: productToEdit.description || '',
                     category: productToEdit.category || 'Accessories',
                     subCategory: productToEdit.subCategory || '',
@@ -156,6 +159,11 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                 formData.append('model', data.model.trim());
             }
             formData.append('price', data.price.toString());
+            if (data.oldPrice && !isNaN(data.oldPrice)) {
+                formData.append('oldPrice', data.oldPrice.toString());
+            } else {
+                formData.append('oldPrice', '');
+            }
             formData.append('description', data.description.trim());
             formData.append('category', data.category);
             if (data.subCategory?.trim()) {
@@ -294,13 +302,29 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-text-dark mb-2">السعر</label>
+                            <label className="block text-sm font-medium text-text-dark mb-2">السعر الحالي (ج.م)</label>
                             <input
                                 type="number"
+                                step="any"
                                 {...productRegister('price')}
                                 className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
                             />
                             {productErrors.price && <p className="text-red-500 text-xs mt-1">{productErrors.price.message}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-text-dark mb-2">
+                                السعر القديم (اختياري - سيظهر مشطوباً)
+                            </label>
+                            <input
+                                type="number"
+                                step="any"
+                                placeholder="مثال: 16000"
+                                {...productRegister('oldPrice')}
+                                className="w-full px-4 py-3 border border-bg-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-medium"
+                            />
+                            {productErrors.oldPrice && <p className="text-red-500 text-xs mt-1">{productErrors.oldPrice.message}</p>}
+                            <p className="text-xs text-text-light mt-1">اتركه فارغاً إذا لم يكن هناك خصم</p>
                         </div>
 
                         <div>
