@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, Loader2, Bot, Wrench, MessageCircle, ExternalLink } from 'lucide-react';
+import { Send, Loader2, Bot, Wrench, MessageCircle, ExternalLink, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getImageUrl } from '../utils/imageUrl';
 
@@ -54,7 +54,7 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                 if (response.status === 429) {
                     const limitMessage = {
                         role: 'assistant',
-                        content: data.message || "خلصت سؤالك النهاردة يا بطل! تقدر تسأل تاني بكرة بإذن الله. 😉",
+                        content: data.message || "لقد استهلكت سؤالك اليومي المتاح بالذكاء الاصطناعي، يمكنك المحاولة مرة أخرى غداً بإذن الله.",
                     };
                     setMessages(prev => [...prev, limitMessage]);
                     return;
@@ -116,7 +116,8 @@ const ChatInterface = ({ mode, endpoint, placeholder }) => {
                                 </p>
                                 <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4 max-w-sm mx-auto shadow-sm">
                                     <p className="text-amber-800 text-sm font-medium flex items-center justify-center gap-2">
-                                        ⚠️ تنبيه: مسموح بسؤال واحد فقط يومياً بالذكاء الاصطناعي، فتأكد من كتابة كل ما تحتاجه بدقة.
+                                        <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                                        <span><strong>تنبيه:</strong> مسموح بسؤال واحد فقط يومياً بالذكاء الاصطناعي، فتأكد من كتابة كل ما تحتاجه بدقة.</span>
                                     </p>
                                 </div>
                             </div>

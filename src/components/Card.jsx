@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
 import { getImageUrl } from '../utils/imageUrl';
-
+import { Flame, Sparkles } from 'lucide-react';
 
 function Card({ product, onEdit }) {
   const { user } = useSelector((state) => state.auth);
@@ -25,7 +25,7 @@ function Card({ product, onEdit }) {
     setAddingToCart(true);
     try {
       await dispatch(addToCart({ productId: product._id, quantity: 1 })).unwrap();
-      setCartMessage('تمت الإضافة للسلة ✓');
+      setCartMessage('تمت الإضافة للسلة بنجاح');
       setTimeout(() => setCartMessage(''), 3000);
     } catch (error) {
       setCartMessage(error || 'فشل في الإضافة');
@@ -50,13 +50,15 @@ function Card({ product, onEdit }) {
           </span>
         )}
         {product.isDailyOffer && (
-          <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg animate-pulse">
-            🔥 عرض اليوم
+          <span className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1 animate-pulse">
+            <Flame className="w-3 h-3" />
+            عرض اليوم
           </span>
         )}
         {product.isWeeklyOffer && (
-          <span className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
-            ⭐ عرض الأسبوع
+          <span className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+            <Sparkles className="w-3 h-3" />
+            عرض الأسبوع
           </span>
         )}
       </div>
@@ -141,7 +143,7 @@ function Card({ product, onEdit }) {
 
         {/* رسالة الإضافة للسلة */}
         {cartMessage && (
-          <div className={`mb-4 p-2 rounded-lg text-xs font-bold text-center animate-fadeIn ${cartMessage.includes('✓') ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'}`}>
+          <div className={`mb-4 p-2 rounded-lg text-xs font-bold text-center animate-fadeIn ${cartMessage.includes('بنجاح') ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'}`}>
             {cartMessage}
           </div>
         )}

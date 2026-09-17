@@ -1,6 +1,7 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
+import { Star } from "lucide-react";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -8,7 +9,7 @@ function ReviewsSection() {
   const reviews = [
     {
       name: "أحمد محمد",
-      text: "منتجات ممتازة وجودة عالية جدًا 👌، والتوصيل أسرع مما توقعت.",
+      text: "منتجات ممتازة وجودة عالية جدًا، والتوصيل أسرع مما توقعت.",
       rating: 5,
     },
     {
@@ -18,7 +19,7 @@ function ReviewsSection() {
     },
     {
       name: "محمود خالد",
-      text: "سعر مناسب مقارنة بالخدمة والجودة. أكيد هكرر الشراء ❤️.",
+      text: "سعر مناسب مقارنة بالخدمة والجودة، تجربة ممتازة وسأكرر الشراء دائماً.",
       rating: 5,
     },
   ];
@@ -48,13 +49,11 @@ function ReviewsSection() {
             <SwiperSlide key={idx}>
               <div className="bg-bg-white rounded-xl shadow-md p-6 text-center border border-gray-200 max-w-lg mx-auto">
                 {/* التقييم */}
-                <div className="flex justify-center mb-3">
+                <div className="flex justify-center gap-1 mb-3">
                   {Array(review.rating)
-                    .fill("⭐")
-                    .map((star, i) => (
-                      <span key={i} className="text-warning text-xl">
-                        {star}
-                      </span>
+                    .fill(0)
+                    .map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                     ))}
                 </div>
                 {/* النص */}

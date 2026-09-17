@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
 import { addToCart } from '../redux/slices/cartSlice';
 import { getImageUrl } from '../utils/imageUrl';
+import { Flame, Sparkles } from 'lucide-react';
 
 
 export default function ProductDetails() {
@@ -94,8 +95,8 @@ export default function ProductDetails() {
                                 e.target.onerror = null;
                             }}
                         />
-                        {product.isDailyOffer && <span className="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500 animate-pulse">🔥 عرض اليوم</span>}
-                        {product.isWeeklyOffer && <span className="absolute top-2 right-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">⭐ عرض الأسبوع</span>}
+                        {product.isDailyOffer && <span className="absolute top-2 left-2 bg-gradient-to-r from-orange-500 to-red-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md animate-in fade-in duration-500 animate-pulse"><Flame className="w-3.5 h-3.5" /> عرض اليوم</span>}
+                        {product.isWeeklyOffer && <span className="absolute top-2 right-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md animate-in fade-in duration-500"><Sparkles className="w-3.5 h-3.5" /> عرض الأسبوع</span>}
                         {product.isAvailable === false && <span className="absolute bottom-2 left-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs animate-in fade-in duration-500">غير متاح</span>}
                     </div>
                     <div className="flex gap-2 mt-2">

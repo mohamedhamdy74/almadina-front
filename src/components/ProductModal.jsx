@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
 import { createProduct, updateProduct } from '../redux/slices/productSlice';
+import { Flame, Sparkles } from 'lucide-react';
 
 export default function ProductModal({ isOpen, onClose, productToEdit, defaultCategory }) {
     const dispatch = useDispatch();
@@ -20,6 +21,19 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
         price: yup.number().typeError('السعر يجب أن يكون رقم').required('السعر مطلوب'),
         description: yup.string().required('الوصف مطلوب'),
         category: yup.string().required('الفئة مطلوبة'),
+        subCategory: yup.string().nullable(),
+        model: yup.string().nullable(),
+        isAvailable: yup.boolean(),
+        isDailyOffer: yup.boolean(),
+        isWeeklyOffer: yup.boolean(),
+        cpu: yup.string().nullable(),
+        ramMemory: yup.string().nullable(),
+        hardDiskSize: yup.string().nullable(),
+        screenSize: yup.string().nullable(),
+        color: yup.string().nullable(),
+        graphicsDescription: yup.string().nullable(),
+        operatingSystem: yup.string().nullable(),
+        specialFeatures: yup.string().nullable(),
     });
 
     const {
@@ -149,9 +163,13 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
             }
 
             // Add availability and offer fields
-            formData.append('isAvailable', data.isAvailable ? 'true' : 'false');
-            formData.append('isDailyOffer', data.isDailyOffer ? 'true' : 'false');
-            formData.append('isWeeklyOffer', data.isWeeklyOffer ? 'true' : 'false');
+            const isAvailableVal = data.isAvailable !== undefined ? Boolean(data.isAvailable) : Boolean(watchProduct('isAvailable'));
+            const isDailyOfferVal = Boolean(data.isDailyOffer !== undefined ? data.isDailyOffer : watchProduct('isDailyOffer'));
+            const isWeeklyOfferVal = Boolean(data.isWeeklyOffer !== undefined ? data.isWeeklyOffer : watchProduct('isWeeklyOffer'));
+
+            formData.append('isAvailable', isAvailableVal ? 'true' : 'false');
+            formData.append('isDailyOffer', isDailyOfferVal ? 'true' : 'false');
+            formData.append('isWeeklyOffer', isWeeklyOfferVal ? 'true' : 'false');
 
             // Add specifications
             const specifications = {};
@@ -334,7 +352,10 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                                     className="w-5 h-5 rounded text-orange-500 focus:ring-orange-500"
                                 />
                                 <div>
-                                    <span className="font-semibold text-text-dark block">🔥 عرض اليوم</span>
+                                    <span className="font-semibold text-text-dark flex items-center gap-1.5">
+                                        <Flame className="w-4 h-4 text-orange-500" />
+                                        عرض اليوم
+                                    </span>
                                     <span className="text-xs text-text-light">يظهر في سيكشن عرض اليوم</span>
                                 </div>
                             </label>
@@ -347,7 +368,10 @@ export default function ProductModal({ isOpen, onClose, productToEdit, defaultCa
                                     className="w-5 h-5 rounded text-purple-500 focus:ring-purple-500"
                                 />
                                 <div>
-                                    <span className="font-semibold text-text-dark block">⭐ عرض الأسبوع</span>
+                                    <span className="font-semibold text-text-dark flex items-center gap-1.5">
+                                        <Sparkles className="w-4 h-4 text-purple-500" />
+                                        عرض الأسبوع
+                                    </span>
                                     <span className="text-xs text-text-light">يظهر في سيكشن عرض الأسبوع</span>
                                 </div>
                             </label>

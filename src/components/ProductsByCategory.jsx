@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteProduct } from '../redux/slices/productSlice';
 import ProductModal from './ProductModal';
+import { Flame, Sparkles } from 'lucide-react';
 
 export default function ProductsByCategory({ products }) {
     const dispatch = useDispatch();
@@ -124,10 +125,16 @@ export default function ProductsByCategory({ products }) {
                                                         <span className="bg-red-100 text-red-600 text-[10px] font-bold px-2 py-0.5 rounded-full">غير متاح</span>
                                                     )}
                                                     {product.isDailyOffer && (
-                                                        <span className="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full">🔥 عرض اليوم</span>
+                                                        <span className="bg-orange-100 text-orange-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                                            <Flame className="w-3 h-3 text-orange-500" />
+                                                            عرض اليوم
+                                                        </span>
                                                     )}
                                                     {product.isWeeklyOffer && (
-                                                        <span className="bg-purple-100 text-purple-600 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ عرض الأسبوع</span>
+                                                        <span className="bg-purple-100 text-purple-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                                                            <Sparkles className="w-3 h-3 text-purple-500" />
+                                                            عرض الأسبوع
+                                                        </span>
                                                     )}
                                                 </div>
                                                 <h4 className="text-lg font-bold text-text-dark mb-2 line-clamp-1">

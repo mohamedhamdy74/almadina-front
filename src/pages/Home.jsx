@@ -3,12 +3,12 @@ import Navbar from '../components/Navbar';
 import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import TrustSection from '../components/TrustSection';
-
 import Categories from '../components/Categories';
 import ProductCarousel from '../components/ProductCarousel';
 import RegistrationCta from '../components/RegistrationCta';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../redux/slices/productSlice';
+import { Flame, Sparkles, ArrowLeft } from 'lucide-react';
 
 function Home() {
   const dispatch = useDispatch();
@@ -19,8 +19,8 @@ function Home() {
   }, [dispatch]);
 
   // عروض اليوم والأسبوع
-  const dailyOffers = products.filter(p => p.isDailyOffer);
-  const weeklyOffers = products.filter(p => p.isWeeklyOffer);
+  const dailyOffers = products.filter(p => p.isDailyOffer === true || p.isDailyOffer === 'true');
+  const weeklyOffers = products.filter(p => p.isWeeklyOffer === true || p.isWeeklyOffer === 'true');
 
   return (
     <div className='font-cairo m-0 overflow-x-hidden'>
@@ -60,60 +60,96 @@ function Home() {
 
       </section>
 
-      {/* 🔥 عرض اليوم */}
-      {dailyOffers.length > 0 && (
-        <section className="relative py-16 overflow-hidden" dir="rtl">
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 opacity-[0.07]"></div>
-          <div className="absolute top-0 right-0 w-72 h-72 bg-orange-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-pulse"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-red-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-          <div className="container mx-auto px-6 relative z-10">
-            <div className="flex items-center justify-between mb-10">
-              <div className="flex items-center gap-4">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-2xl shadow-lg shadow-orange-500/30">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>
-                </div>
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-text-dark font-cairo">🔥 عرض اليوم</h2>
-                  <p className="text-text-medium text-sm mt-1">عروض حصرية لفترة محدودة!</p>
-                </div>
+      {/* سيكشن عرض اليوم */}
+      <section className="relative py-16 overflow-hidden" dir="rtl">
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-500 via-red-500 to-pink-500 opacity-[0.07]"></div>
+        <div className="absolute top-0 right-0 w-72 h-72 bg-orange-400/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-red-400/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-r from-orange-500 to-red-500 p-3 rounded-2xl shadow-lg shadow-orange-500/30">
+                <Flame className="h-8 w-8 text-white" />
               </div>
-              <div className="h-1 flex-1 mx-8 bg-gradient-to-r from-orange-300/30 to-transparent rounded-full hidden md:block"></div>
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-text-dark font-cairo">عرض اليوم</h2>
+                <p className="text-text-medium text-sm mt-1">عروض حصرية محدثة يومياً بأقوى الخصومات</p>
+              </div>
             </div>
+            <div className="h-1 flex-1 mx-8 bg-gradient-to-r from-orange-300/30 to-transparent rounded-full hidden md:block"></div>
+          </div>
+
+          {dailyOffers.length > 0 ? (
             <ProductCarousel
               title=""
               products={dailyOffers}
               isLoading={loading}
             />
-          </div>
-        </section>
-      )}
-
-      {/* ⭐ عرض الأسبوع */}
-      {weeklyOffers.length > 0 && (
-        <section className="relative py-16 overflow-hidden bg-gradient-to-b from-white to-purple-50/30" dir="rtl">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-purple-400/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 animate-pulse"></div>
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-400/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2"></div>
-          <div className="container mx-auto px-6 relative z-10">
-            <div className="flex items-center justify-between mb-10">
-              <div className="flex items-center gap-4">
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-500 p-3 rounded-2xl shadow-lg shadow-purple-500/30">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
-                </div>
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-text-dark font-cairo">⭐ عرض الأسبوع</h2>
-                  <p className="text-text-medium text-sm mt-1">أفضل العروض هذا الأسبوع</p>
-                </div>
+          ) : (
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-orange-200/70 p-10 text-center shadow-sm max-w-xl mx-auto">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-orange-500/25">
+                <Flame className="w-8 h-8" />
               </div>
-              <div className="h-1 flex-1 mx-8 bg-gradient-to-r from-purple-300/30 to-transparent rounded-full hidden md:block"></div>
+              <h3 className="text-2xl font-bold text-text-dark mb-2">ترقبوا عروض اليوم قريباً!</h3>
+              <p className="text-text-medium text-sm leading-relaxed mb-6">
+                يقوم فريقنا باختيار أجهزة مميزة يومياً لعرضها هنا بأفضل سعر. تصفح بقية الأجهزة أو تواصل معنا للاستفسار.
+              </p>
+              <Link
+                to="/laptops"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-orange-500 text-white font-bold hover:bg-orange-600 transition shadow-md hover:shadow-lg"
+              >
+                تصفح أحدث الأجهزة المتاحة
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
             </div>
+          )}
+        </div>
+      </section>
+
+      {/* سيكشن عرض الأسبوع */}
+      <section className="relative py-16 overflow-hidden bg-gradient-to-b from-white to-purple-50/30" dir="rtl">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-purple-400/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-indigo-400/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2"></div>
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center gap-4">
+              <div className="bg-gradient-to-r from-purple-500 to-indigo-500 p-3 rounded-2xl shadow-lg shadow-purple-500/30">
+                <Sparkles className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold text-text-dark font-cairo">عرض الأسبوع</h2>
+                <p className="text-text-medium text-sm mt-1">تخفيضات أسبوعية مميزة على أفضل الأجهزة</p>
+              </div>
+            </div>
+            <div className="h-1 flex-1 mx-8 bg-gradient-to-r from-purple-300/30 to-transparent rounded-full hidden md:block"></div>
+          </div>
+
+          {weeklyOffers.length > 0 ? (
             <ProductCarousel
               title=""
               products={weeklyOffers}
               isLoading={loading}
             />
-          </div>
-        </section>
-      )}
+          ) : (
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-purple-200/70 p-10 text-center shadow-sm max-w-xl mx-auto">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/25">
+                <Sparkles className="w-8 h-8" />
+              </div>
+              <h3 className="text-2xl font-bold text-text-dark mb-2">عروض الأسبوع قادمة قريباً</h3>
+              <p className="text-text-medium text-sm leading-relaxed mb-6">
+                نقوم باختيار أقوى لابتوبات الاستيراد وإكسسواراتها أسبوعياً لتقديمها بخصومات لا تفوت.
+              </p>
+              <Link
+                to="/laptops"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-purple-600 text-white font-bold hover:bg-purple-700 transition shadow-md hover:shadow-lg"
+              >
+                استكشف كل المنتجات
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* الأقسام */}
       <Categories />
